@@ -1,4 +1,4 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import {HttpClient, HttpContext, HttpResponse} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { UserStoargeService } from '../storage/user-stoarge.service';
@@ -36,4 +36,34 @@ export class AuthService {
         })
       );
   }
+
+  verifyAccount(token: string): Observable<any> {
+    const url = `${BASIC_URL}activate-account?token=${token}`;
+    console.log("The url is:"+url);
+    return this.http.get(url);
+  }
+
+  // /** Path part for operation `confirm()` */
+  // static readonly ConfirmPath = '/activate-account';
+  //
+  // /**
+  //  * This method provides access to the full `HttpResponse`, allowing access to response headers.
+  //  * To access only the response body, use `confirm()` instead.
+  //  */
+  // confirm$Response(params: Confirm$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  //   return confirm(this.http, this.rootUrl, params, context);
+  // }
+  //
+  // /**
+  //  * This method provides access only to the response body.
+  //  * To access the full response (for headers, for example), `confirm$Response()` instead.
+  //  *
+  //  * This method doesn't expect any request body.
+  //  */
+  // confirm(params: Confirm$Params, context?: HttpContext): Observable<void> {
+  //   return this.confirm$Response(params, context).pipe(
+  //     map((r: StrictHttpResponse<void>): void => r.body)
+  //   );
+  // }
+
 }
