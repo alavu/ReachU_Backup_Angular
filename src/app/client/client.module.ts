@@ -9,6 +9,10 @@ import { DemoNgZorroAntdModule } from '../DemoNgZorroAntdModule';
 import { AdDetailComponent } from './pages/ad-detail/ad-detail.component';
 import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
 import { ReviewComponent } from './pages/review/review.component';
+import { ActivateAccountComponent } from './pages/activate-account/activate-account.component';
+import {CodeInputModule} from "angular-code-input";
+
+
 
 
 @NgModule({
@@ -17,14 +21,16 @@ import { ReviewComponent } from './pages/review/review.component';
     ClientDashboardComponent,
     AdDetailComponent,
     MyBookingsComponent,
-    ReviewComponent
+    ReviewComponent,
+    ActivateAccountComponent,
   ],
   imports: [
     CommonModule,
     ClientRoutingModule,
     DemoNgZorroAntdModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CodeInputModule
   ]
 })
 export class ClientModule { }

@@ -15,6 +15,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DemoNgZorroAntdModule } from './DemoNgZorroAntdModule';
 import { SignupClientComponent } from './basic/components/signup-client/signup-client.component';
 import { SignupCompanyComponent } from './basic/components/signup-company/signup-company.component';
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {RouterModule} from "@angular/router";
+import {ActivateAccountComponent} from "./client/pages/activate-account/activate-account.component";
 
 registerLocaleData(en);
 
@@ -33,7 +36,13 @@ registerLocaleData(en);
     HttpClientModule,
     BrowserAnimationsModule,
     DemoNgZorroAntdModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule,       // Import MatSnackBarModule here
+    RouterModule.forRoot([
+      { path: 'activate-account', component: ActivateAccountComponent },
+      { path: 'login', component: LoginComponent }
+    ])
+
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }

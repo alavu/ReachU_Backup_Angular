@@ -12,6 +12,7 @@ import { AuthService } from '../../services/auth/auth.service';
 export class SignupCompanyComponent {
 
   validateForm!: FormGroup;
+  errorMsg: Array<string> = [];
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
@@ -30,8 +31,16 @@ export class SignupCompanyComponent {
     }
 
     submitForm(){
-      this.authService.registerCompany(this.validateForm.value).subscribe(res =>{
-        this.notification
+      this.authService.registerCompany(this.validateForm.value) .subscribe({
+        next: () => {
+          this.router.navigate(['activate-account']);
+        },
+        error: (err) => {
+          this.errorMsg = err.error.validationErrors;
+        }
+      });
+      }
+        /*this.notification
         .success(
           'SUCCESS',
           `Signup successful`,
@@ -45,8 +54,6 @@ export class SignupCompanyComponent {
           `${error.error}`,
           { nzDuration: 5000 }
         )
-      });
-      
-    }
+      });*/
 
 }
