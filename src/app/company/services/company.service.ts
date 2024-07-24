@@ -58,6 +58,18 @@ export class CompanyService {
     })
   }
 
+addCategory(categoryDto:any): Observable<any> {
+      return this.http.post(BASIC_URL + 'api/company/category', categoryDto,{
+          headers: this.createAuthorizationHeader()
+      })
+}
+
+    getAllCategories(): Observable<any> {
+        return this.http.get(BASIC_URL + 'api/company',{
+            headers: this.createAuthorizationHeader()
+        })
+    }
+
   createAuthorizationHeader(): HttpHeaders{
     let authHeaders: HttpHeaders = new HttpHeaders();
     return authHeaders.set(

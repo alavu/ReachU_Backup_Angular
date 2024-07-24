@@ -16,6 +16,8 @@ import {SignupCompanyComponent} from "./basic/components/signup-company/signup-c
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {GoogleLoginProvider, GoogleSigninButtonModule, SocialAuthServiceConfig} from "@abacritt/angularx-social-login";
 import {environment} from "./basic/services/storage/environment";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import {NzButtonModule} from "ng-zorro-antd/button";
 
 registerLocaleData(en);
 
@@ -38,6 +40,8 @@ registerLocaleData(en);
         DemoNgZorroAntdModule,
         ReactiveFormsModule,
         MatSnackBarModule,
+        NzButtonModule,
+        MatButtonToggleModule,
     ],
     providers: [
         {

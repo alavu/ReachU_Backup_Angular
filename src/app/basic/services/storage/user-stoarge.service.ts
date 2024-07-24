@@ -56,7 +56,7 @@ export class UserStoargeService {
     return role ==  'COMPANY';
   }
 
-  static signOut(): void{
+  public static signOut(): void{
     window.localStorage.removeItem(TOKEN);
     window.localStorage.removeItem(USER);
   }

@@ -9,6 +9,11 @@ import { DemoNgZorroAntdModule } from '../DemoNgZorroAntdModule';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AllAdsComponent } from './pages/all-ads/all-ads.component';
 import { UpdateAdComponent } from './pages/update-ad/update-ad.component';
+import { UserManagementComponent } from './pages/user-management/user-management.component';
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
+import { PostCategoryComponent } from './pages/category/post-category/post-category.component';
+import {MatButtonModule} from "@angular/material/button";
+import {MatFormFieldModule} from "@angular/material/form-field";
 
 
 @NgModule({
@@ -17,13 +22,18 @@ import { UpdateAdComponent } from './pages/update-ad/update-ad.component';
     CompanyDashboardComponent,
     CreateAdComponent,
     AllAdsComponent,
-    UpdateAdComponent
+    UpdateAdComponent,
+    UserManagementComponent,
+    PostCategoryComponent
   ],
-  imports: [
-    CommonModule,
-    CompanyRoutingModule,
-    DemoNgZorroAntdModule,
-    ReactiveFormsModule
-  ]
+    imports: [
+        CommonModule,
+        CompanyRoutingModule,
+        DemoNgZorroAntdModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatButtonModule,
+        MatFormFieldModule
+    ]
 })
 export class CompanyModule { }
