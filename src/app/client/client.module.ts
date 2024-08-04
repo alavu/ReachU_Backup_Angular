@@ -10,6 +10,7 @@ import {MyBookingsComponent} from './pages/my-bookings/my-bookings.component';
 import {ReviewComponent} from './pages/review/review.component';
 import {ActivateAccountComponent} from './pages/activate-account/activate-account.component';
 import {CodeInputModule} from "angular-code-input";
+import { CountdownTimerComponent } from '../basic/components/countdown-timer/countdown-timer.component';
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import {CodeInputModule} from "angular-code-input";
         MyBookingsComponent,
         ReviewComponent,
         ActivateAccountComponent,
+        CountdownTimerComponent,
     ],
     imports: [
         CommonModule,

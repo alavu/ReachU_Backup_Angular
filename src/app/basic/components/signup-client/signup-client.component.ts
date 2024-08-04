@@ -49,11 +49,11 @@ export class SignupClientComponent {
         }
         this.authService.registerClient(this.validateForm.value).subscribe({
             next: () => {
-                this.notification.success(
-                    'SUCCESS',
-                    'Signup successful',
-                    {nzDuration: 5000}
-                );
+                // this.notification.success(
+                //     'SUCCESS',
+                //     'Signup successful',
+                //     {nzDuration: 5000}
+                // );
                 this.router.navigate(['activate-account']);
             },
             error: (err) => {

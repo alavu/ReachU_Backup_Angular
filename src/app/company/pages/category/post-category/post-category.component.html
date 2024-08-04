@@ -22,9 +22,14 @@
         </div>
 
         <div class="form-actions">
+<!--            <button mat-raised-button class="custom-button" type="submit" [disabled]="categoryForm.invalid">-->
             <button mat-raised-button class="custom-button" type="submit" [disabled]="categoryForm.invalid">
                 Add Category
             </button>
         </div>
     </form>
+<!--    <button mat-raised-button color="primary" [routerLink]="['/company/category', createdCategory.id, 'subcategory']">-->
+    <button mat-raised-button color="primary" [routerLink]="['/company/category', createdCategory?.id, 'subcategory']" [disabled]="!createdCategory?.id">
+        Add Subcategory
+    </button>
 </div>

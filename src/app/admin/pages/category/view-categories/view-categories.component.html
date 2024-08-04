@@ -1,0 +1,48 @@
+<div class="bg-white shadow-lg rounded-lg p-6">
+    <div class="border-b pb-4 mb-4">
+      <h2 class="text-lg font-semibold text-gray-800" style="margin-left: 250px;">All Categories</h2>
+    </div>
+    <ul class="space-y-4">
+      <li *ngFor="let c of categories" class="flex items-center justify-between space-x-4" style="margin-left: 250px;">
+        <!-- Container for icon, name, and description -->
+        <div class="flex flex-grow items-center space-x-4">
+          <div class="flex-shrink-0">
+            <!-- Example icon: You can use any icon library like Heroicons -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+            </svg>
+          </div>
+          <div class="flex-grow">
+            <div class="text-gray-900 font-medium">{{ c.name }}</div>
+            <div class="text-gray-600">{{ c.description }}</div>
+          </div>
+        </div>
+        <!-- Container for action buttons -->
+        <div class="flex items-center space-x-4">
+          <!-- Edit Button -->
+          <button (click)="editCategory(c)" class="text-blue-500 hover:text-blue-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20h9M16.586 3.414a2 2 0 00-2.828 0L4 13.172V16h2.828l9.758-9.758a2 2 0 000-2.828z" />
+            </svg>
+          </button>
+          <!-- Delete Button -->
+          <button (click)="deleteCategory(c.id)" class="text-red-500 hover:text-red-700">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </li>
+    </ul>
+
+    <hr class="my-4 border-gray-200">
+    <div class="text-center mt-10 space-x-2">
+      <button [routerLink]="['/admin/add-category']" routerLinkActive="router-link-active" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+        Add New Category
+      </button>
+       <!-- Add Sub Category Button -->
+       <button [routerLink]="['/admin/add-subcategory']" routerLinkActive="router-link-active" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg">
+        Add Sub Category
+      </button>
+    </div>
+  </div>

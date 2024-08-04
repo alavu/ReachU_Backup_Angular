@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from '../../services/client.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { UserStoargeService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
 
 @Component({
   selector: 'app-ad-detail',
@@ -48,7 +48,7 @@ export class AdDetailComponent {
       const bookServiceDTO = {
         bookDate : this.validateForm.get(['bookDate']).value,
         adId : this.adId,
-        userId: UserStoargeService.getUserId()
+        userId: UserStorageService.getUserId()
       }
 
       this.clientService.bookService(bookServiceDTO).subscribe(res =>{

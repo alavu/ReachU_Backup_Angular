@@ -9,12 +9,11 @@ import { DemoNgZorroAntdModule } from '../DemoNgZorroAntdModule';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AllAdsComponent } from './pages/all-ads/all-ads.component';
 import { UpdateAdComponent } from './pages/update-ad/update-ad.component';
-import { UserManagementComponent } from './pages/user-management/user-management.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import { PostCategoryComponent } from './pages/category/post-category/post-category.component';
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
-
+import {SubcategoryComponent} from "./pages/category/subcategory-component/subcategory-component.component";
+import {PostCategoryComponent} from "./pages/category/post-category/post-category.component";
 
 @NgModule({
   declarations: [
@@ -23,8 +22,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
     CreateAdComponent,
     AllAdsComponent,
     UpdateAdComponent,
-    UserManagementComponent,
-    PostCategoryComponent
+    PostCategoryComponent,
+    SubcategoryComponent
   ],
     imports: [
         CommonModule,

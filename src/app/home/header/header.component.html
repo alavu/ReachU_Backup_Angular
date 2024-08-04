@@ -1,0 +1,25 @@
+<header class="header" >
+    <div class="logo">ReachU Company</div>
+    <div class="search-bar">
+        <input type="text" placeholder="Search for services...">
+    </div>
+    <nav>
+        <ul>
+            <li><a href="/home" routerLink="/home" routerLinkActive="active">Home</a></li>
+            <li><a href="/partner" routerLink="/partner" routerLinkActive="active">Become a partner</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Services</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="header-icons">
+        <a href="#"><i class="fas fa-shopping-cart"></i></a>
+        <a href="#"><i class="fas fa-user"></i></a>
+        <ng-container *ngIf="isClientLoggedIn || isAdminLoggedIn || isPartnerLoggedIn; else loginTemplate">
+            <a (click)="logout()" class="btn">Logout</a>
+        </ng-container>
+        <ng-template #loginTemplate>
+            <a href="/login"><button class="btn" routerLink="/login" routerLinkActive="active">Login/Sign Up</button></a>
+        </ng-template>
+    </div>
+</header>

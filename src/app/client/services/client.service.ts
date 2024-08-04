@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserStoargeService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
 
 const BASIC_URL = "http://localhost:8080/";
 
@@ -40,7 +40,7 @@ export class ClientService {
     }
 
     getMyBookings(): Observable<any> {
-        const userId = UserStoargeService.getUserId();
+        const userId = UserStorageService.getUserId();
         return this.http.get(BASIC_URL + `api/client/my-bookings/${userId}`, {
             headers: this.createAuthorizationHeader()
         })
@@ -56,7 +56,7 @@ export class ClientService {
         let authHeaders: HttpHeaders = new HttpHeaders();
         return authHeaders.set(
             'Authorization',
-            'Bearer ' + UserStoargeService.getToken()
+            'Bearer ' + UserStorageService.getToken()
         )
     }
 

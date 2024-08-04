@@ -12,6 +12,7 @@ import {CompanyService} from "../../../services/company.service";
 export class PostCategoryComponent {
 
     categoryForm!: FormGroup;
+    createdCategory: any;
 
     constructor(
         private fb: FormBuilder,
@@ -25,17 +26,20 @@ export class PostCategoryComponent {
         this.categoryForm = this.fb.group({
             name: [null, [Validators.required]],
             description: [null, [Validators.required]],
-        })
+        });
+        this.createdCategory = null;
     }
 
     addCategory(): void {
         if (this.categoryForm.valid) {
             this.companyService.addCategory(this.categoryForm.value).subscribe((res) =>{
                 if (res.id!= null) {
+                    console.log("Id:", res.id)
                     this.snackBar.open('Category Posted Successfully!', 'Close',{
                         duration: 5000
                     });
-                    this.router.navigateByUrl('/company/dashboard') //TODO: Need to check the nav
+
+                    this.createdCategory = res;
                 } else {
                     this.snackBar.open(res.message, 'Close', {
                         duration: 5000,

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserStoargeService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
 
 const BASIC_URL = "http://localhost:8080/";
 
@@ -13,14 +13,14 @@ export class CompanyService {
   constructor(private http: HttpClient) { }
 
   postAd(adDTO:any): Observable<any>{
-    const userId = UserStoargeService.getUserId();
+    const userId = UserStorageService.getUserId();
     return this.http.post(BASIC_URL + `api/company/ad/${userId}`, adDTO, {
       headers : this.createAuthorizationHeader()
     })
   }
 
   getAllAdsByUserId(): Observable<any>{
-    const userId = UserStoargeService.getUserId();
+    const userId = UserStorageService.getUserId();
     return this.http.get(BASIC_URL + `api/company/ads/${userId}`, {
       headers : this.createAuthorizationHeader()
     })
@@ -45,7 +45,7 @@ export class CompanyService {
   }
 
   getAllAdBookings(): Observable<any>{
-    const companyId = UserStoargeService.getUserId();
+    const companyId = UserStorageService.getUserId();
     return this.http.get(BASIC_URL + `api/company/bookings/${companyId}`, {
       headers : this.createAuthorizationHeader()
     })
@@ -74,7 +74,7 @@ addCategory(categoryDto:any): Observable<any> {
     let authHeaders: HttpHeaders = new HttpHeaders();
     return authHeaders.set(
       'Authorization',
-      'Bearer ' + UserStoargeService.getToken()
+      'Bearer ' + UserStorageService.getToken()
     )
   }
 }

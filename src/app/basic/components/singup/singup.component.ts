@@ -1,3 +1,5 @@
+/* Not using the currrent flow
+
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,3 +10,4 @@ import { Component } from '@angular/core';
 export class SingupComponent {
 
 }
+*/

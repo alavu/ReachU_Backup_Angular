@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { ClientService } from '../../services/client.service';
-import { UserStoargeService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
 
 @Component({
   selector: 'app-review',
@@ -32,7 +32,7 @@ export class ReviewComponent {
       const reviewDTO = {
         rating: this.validateForm.get("rating").value,
         review: this.validateForm.get("review").value,
-        userId: UserStoargeService.getUserId(),
+        userId: UserStorageService.getUserId(),
         bookId: this.bookId
       }
 

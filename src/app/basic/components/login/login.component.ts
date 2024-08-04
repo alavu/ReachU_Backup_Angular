@@ -2,10 +2,10 @@ import {FormGroup, FormBuilder, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {AuthService} from '../../services/auth/auth.service';
-import {UserStoargeService} from '../../services/storage/user-stoarge.service';
 import {Component, NgZone, OnInit} from "@angular/core";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../services/storage/environment";
+import { UserStorageService } from '../../services/storage/user-stoarge.service';
 
 declare const google: any;
 
@@ -17,7 +17,7 @@ declare const google: any;
 export class LoginComponent implements OnInit {
 
     validateForm!: FormGroup;
-    isSpinning = false;
+    // isSpinning = false;
 
     constructor(
         private fb: FormBuilder,
@@ -29,17 +29,19 @@ export class LoginComponent implements OnInit {
     ) {
     }
 
-    submitForm() {
+    /*submitForm() {
         this.isSpinning = true;
-        this.authService.login(this.validateForm.get(['userName'])!.value, this.validateForm.get(['password'])!.value)
+        this.authService.login(this.validateForm.get(['userName'])!.value,
+            this.validateForm.get(['password'])!.value)
             .subscribe(
                 res => {
                     console.log(res);
                     if (UserStoargeService.isClientLoggedIn()) {
                         this.router.navigateByUrl('client/dashboard');
-                    } else if (UserStoargeService.isCompanyLoggedIn()) {
-                        this.router.navigateByUrl('company/dashboard');
                     }
+                   /!* else if (UserStoargeService.isCompanyLoggedIn()) {
+                        this.router.navigateByUrl('company/dashboard');
+                    }*!/
                     this.isSpinning = false;
                 },
                 error => {
@@ -51,8 +53,35 @@ export class LoginComponent implements OnInit {
                     this.isSpinning = false;
                 }
             );
-    }
+    }*/
 
+    // submitForm() {
+    //     // this.isSpinning = true;
+    //     this.authService.login(this.validateForm.get(['userName'])!.value,
+    //         this.validateForm.get(['password'])!.value)
+    //         .subscribe(
+    //             res => {
+    //                 console.log(res);
+                    // if (UserStorageService.isUserLoggedIn()) {
+                    //     this.router.navigateByUrl('client/dashboard');
+                    // }
+                    // /* else if (UserStoargeService.isCompanyLoggedIn()) {
+                    //      this.router.navigateByUrl('company/dashboard');
+                    //  }*/
+    //                 // this.isSpinning = false;
+    //             },
+    //             error => {
+    //                 this.notification.error(
+    //                     'ERROR',
+    //                     `Bad credentials`,
+    //                     {nzDuration: 5000}
+    //                 );
+    //                 // this.isSpinning = false;
+    //             }
+    //         );
+    // }
+
+   
     private decodeToken(token: string): any {
         try {
             return JSON.parse(atob(token.split(".")[1]));
@@ -77,7 +106,7 @@ export class LoginComponent implements OnInit {
                         this.snackBar.open('Google Sign-In Success', 'Success', {
                             duration: 3000,
                         });
-                        this.router.navigate(['/client/dashboard']);
+                        this.router.navigate(['home']);
                     },
                     error: () => {
                         this.snackBar.open('Google Sign-In Failed', 'Error', {
@@ -97,7 +126,7 @@ export class LoginComponent implements OnInit {
 
     ngOnInit(): void {
         this.validateForm = this.fb.group({
-            userName: [null, [Validators.required]],
+            email: [null, [Validators.email, Validators.required]],
             password: [null, [Validators.required]],
         });
 
@@ -120,8 +149,90 @@ export class LoginComponent implements OnInit {
             console.error('Google accounts API is not available.');
         }
 
-        setTimeout(() => {
-            this.isSpinning = false;
-        }, 1000);
+        // setTimeout(() => {
+        //     this.isSpinning = false;
+        // }, 1000);
     }
+
+    
+
+    // submitForm() {
+    //     this.authService.isUserlogin(this.validateForm.value)
+    //     .subscribe({
+    //         next: (res: LoginResponse) => {
+    //             console.log('Login Response:', res);
+
+    //             console.log(res.)
+    
+               
+    //                 if (UserStorageService.isUserLoggedIn()) {
+    //                     this.router.navigateByUrl('client/dashboard');
+                    
+    //                     if (res.success) {
+    //                     this.snackBar.open("Login successful", "Close", {duration: 3000});
+    //                 }
+    //             } else {
+    //                 this.snackBar.open("Invalid credentials.", "Close", {duration: 3000, panelClass: "error-snackbar"});
+    //             }
+    //         },
+    //         error: (err) => {
+    //             console.error('Login Error:', err);
+    //             this.snackBar.open("An error occurred. Please try again.", "Close", {
+    //                 duration: 5000,
+    //                 panelClass: "error-snackbar"
+    //             });
+    //         }
+    //     });
+    // }
+    
+    submitForm() {
+        this.authService.isUserlogin(this.validateForm.value).subscribe({
+            next: (res: LoginResponse) => { // Use the LoginResponse interface here
+                console.log('Login Response:', res);
+    
+                if (res.email != null) {
+                    const user = {
+                        id: res.email,
+                        role: res.userRole,
+                    };
+    
+                    console.log('user role :', res.userRole);
+                    console.log('User:', user);
+                    UserStorageService.saveUser(user);
+    
+                    const token = res.token;
+                    console.log('JWT Token:', token);
+                    UserStorageService.saveToken(token);
+    
+                    if (UserStorageService.isUserLoggedIn) {
+                        this.router.navigateByUrl('home');
+                    }
+                    
+                    this.snackBar.open("Login successful", "Close", { duration: 3000 });
+                } else {
+                    this.snackBar.open("Invalid credentials.", "Close", { duration: 3000, panelClass: "error-snackbar" });
+                }
+            },
+            error: (err) => {
+                console.error('Login Error:', err);
+                if (err.error.error === "User is blocked") {
+                    this.snackBar.open("Your account is blocked. Please contact support.", "Close", {
+                        duration: 5000,
+                        panelClass: "error-snackbar"
+                    });
+                } else {
+                    this.snackBar.open("An error occurred. Please try again.", "Close", {
+                        duration: 5000,
+                        panelClass: "error-snackbar"
+                });
+            }
+        }
+    });
+}
+}
+
+interface LoginResponse {
+    email: string;
+    userRole: string;
+    token: string;
 }
