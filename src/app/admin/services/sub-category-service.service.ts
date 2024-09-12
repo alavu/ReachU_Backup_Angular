@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Subcategory } from '../pages/model/Subcategory';
+import { Subcategory } from '../pages/model/Category';
 
 const BASIC_URL = 'http://localhost:8080/api/admin';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SubCategoryService {
+export class SubCategoryService { 
 
   constructor(private http: HttpClient) { }
 
@@ -30,4 +30,9 @@ export class SubCategoryService {
   deleteSubCategory(id: number): Observable<void> {
     return this.http.delete<void>(`${BASIC_URL}/subcategories/${id}`);
   }
+
+    // Method to check if sub category name exists
+checkSubCategoryNameExists(name: string): Observable<boolean> {
+  return this.http.get<boolean>(`${BASIC_URL}/subcategory/exists/${name}`);
+}
 }

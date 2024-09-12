@@ -1,16 +1,15 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth/auth.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {NzNotificationService} from "ng-zorro-antd/notification";
-import {Router} from "@angular/router";
-import {environment} from "../../services/storage/environment";
+import { Component, NgZone, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../services/auth/auth.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { NzNotificationService } from "ng-zorro-antd/notification";
+import { Router } from "@angular/router";
 import { UserStorageService } from '../../services/storage/user-stoarge.service';
 
 @Component({
-  selector: 'app-partner-login',
-  templateUrl: './partner-login.component.html',
-  styleUrls: ['./partner-login.component.scss']
+    selector: 'app-partner-login',
+    templateUrl: './partner-login.component.html',
+    styleUrls: ['./partner-login.component.scss']
 })
 export class PartnerLoginComponent implements OnInit {
     validateForm!: FormGroup;
@@ -23,66 +22,69 @@ export class PartnerLoginComponent implements OnInit {
         private snackBar: MatSnackBar,
         private notification: NzNotificationService,
         private router: Router
-    ) {
-    }
+    ) {}
 
     ngOnInit(): void {
         this.validateForm = this.fb.group({
-            userName: [null, [Validators.email, Validators.required]],
+            email: [null, [Validators.email, Validators.required]],
             password: [null, [Validators.required]],
         });
     }
 
-    /*submitForm() {
-        this.isSpinning = true;
-        this.authService.login(this.validateForm.get(['userName'])!.value,
-            this.validateForm.get(['password'])!.value)
-            .subscribe(
-                res => {
-                    console.log(res);
-                    if (UserStoargeService.isCompanyLoggedIn()) {
-                        this.router.navigateByUrl('partner/dashboard');
-                    }
-                    /!* else if (UserStoargeService.isCompanyLoggedIn()) {
-                         this.router.navigateByUrl('company/dashboard');
-                     }*!/
-                    this.isSpinning = false;
-                },
-                error => {
-                    this.notification.error(
-                        'ERROR',
-                        `Bad credentials`,
-                        {nzDuration: 5000}
-                    );
-                    this.isSpinning = false;
-                }
-            );
-    }*/
-
     submitForm() {
-        this.isSpinning = true;
-        this.authService.login(this.validateForm.get(['email'])!.value,
-            this.validateForm.get(['password'])!.value)
-            .subscribe(
-                res => {
-                    console.log(res);
-                    if (UserStorageService.isAdminLoggedIn()) {
-                        this.router.navigateByUrl('partner/dashboard');
+        // Show spinner during the request
+        // this.isSpinning = true;
+
+        // Send login request using AuthService
+        this.authService.isPartnerlogin(this.validateForm.value).subscribe({
+            next: (res: LoginResponse) => {
+                console.log('Login Response:', res);
+
+                if (res.token != null) {
+                    // Save user information to local storage
+                    const partner = {
+                        token: res.token,
+                        role: res.userRole,
+                        userId: res.userId
+                    };
+
+                    console.log('User role:', res.userRole);
+                    console.log('Partner:', partner);
+                    UserStorageService.saveUser(partner);
+
+                    const token = res.token;
+                    console.log('JWT Token:', token);
+                    UserStorageService.saveToken(token);
+
+                    // Navigate to partner dashboard if login is successful
+                    if (UserStorageService.isPartnerLoggedIn()) {
+                        this.router.navigateByUrl('/partner/profile');
                     }
-                    /* else if (UserStoargeService.isCompanyLoggedIn()) {
-                         this.router.navigateByUrl('company/dashboard');
-                     }*/
-                    this.isSpinning = false;
-                },
-                error => {
-                    this.notification.error(
-                        'ERROR',
-                        `Bad credentials`,
-                        {nzDuration: 5000}
-                    );
-                    this.isSpinning = false;
+
+                    this.snackBar.open("Login successful", "Close", { duration: 3000 });
+                } else {
+                    // Show error if credentials are invalid
+                    this.snackBar.open("Invalid credentials.", "Close", { duration: 3000, panelClass: "error-snackbar" });
                 }
-            );
+                this.isSpinning = false;
+            },
+            error: (err) => {
+                console.error('Login Error:', err);
+                // Show different messages depending on the error
+                if (err.error.error === "User is blocked") {
+                    this.snackBar.open("Your account is blocked. Please contact support.", "Close", {
+                        duration: 5000,
+                        panelClass: "error-snackbar"
+                    });
+                } else {
+                    this.snackBar.open("An error occurred. Please try again.", "Close", {
+                        duration: 5000,
+                        panelClass: "error-snackbar"
+                    });
+                }
+                this.isSpinning = false;
+            }
+        });
     }
 
     private decodeToken(token: string): any {
@@ -93,4 +95,12 @@ export class PartnerLoginComponent implements OnInit {
             return null;
         }
     }
+}
+
+interface LoginResponse {
+    email: string;
+    userId: number;
+    userRole: string;
+    token: string;
+    refreshToken: string;
 }

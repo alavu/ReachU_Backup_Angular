@@ -13,6 +13,7 @@ export class AppComponent {
   isClientLoggedIn: boolean = UserStorageService.isUserLoggedIn();
   isCompanyLoggedIn: boolean = UserStorageService.isAdminLoggedIn();
   isPartnerLoggedIn: boolean = UserStorageService.isPartnerLoggedIn();
+  // isGoogleLogin: boolean = UserStorageService.isGoogleLogin();
 
   constructor(private router: Router){}
 
@@ -21,6 +22,7 @@ export class AppComponent {
       this.isClientLoggedIn = UserStorageService.isUserLoggedIn();
       this.isCompanyLoggedIn = UserStorageService.isAdminLoggedIn();
       this.isPartnerLoggedIn = UserStorageService.isPartnerLoggedIn();
+      // this.isGoogleLogin = UserStorageService.isGoogleLogin();
     })
   }
 

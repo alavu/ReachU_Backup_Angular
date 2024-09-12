@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {NzNotificationService} from 'ng-zorro-antd/notification';
 import {AuthService} from '../../services/auth/auth.service';
+import { UserDataService } from '../../services/storage/user-details.service';
+import { passwordMatchValidator, phoneValidator } from 'src/app/validator/password-match.validator';
 
 @Component({
     selector: 'app-signup-client',
@@ -17,7 +19,8 @@ export class SignupClientComponent {
     constructor(private fb: FormBuilder,
                 private authService: AuthService,
                 private notification: NzNotificationService,
-                private router: Router) {
+                private router: Router,
+                private userDataService: UserDataService) {
     }
 
     ngOnInit() {
@@ -25,10 +28,11 @@ export class SignupClientComponent {
             email: [null, [Validators.email, Validators.required]],
             name: [null, [Validators.required]],
             lastname: [null, [Validators.required]],
-            phone: [null],
+            // phone: [null, [Validators.required]],
+            phone: [null, [Validators.required, phoneValidator()]],
             password: [null, [Validators.required]],
             checkPassword: [null, [Validators.required]],
-        })
+        }, { validator: passwordMatchValidator }); // Apply the custom validator here
     }
 
     submitForm() {
@@ -40,20 +44,35 @@ export class SignupClientComponent {
                 }
             }
 
+           // Display specific error message if password mismatch occurs
+           if (this.validateForm.hasError('passwordMismatch')) {
             this.notification.error(
                 'ERROR',
-                'All fields are required',
+                'Passwords do not match!',
                 { nzDuration: 5000 }
             );
-            return;
+            this.validateForm.get('checkPassword')?.setErrors({ passwordMismatch: true });
+        } else if (this.validateForm.get('phone')?.hasError('invalidPhone')) {
+            this.notification.error(
+              'ERROR',
+              'Phone number must contain exactly 10 digits and no special characters!',
+              { nzDuration: 5000 }
+            );
+          } else {
+            this.notification.error(
+              'ERROR',
+              'Please fill in all required fields.',
+              { nzDuration: 5000 }
+            );
+          }
+          return;
         }
+        const email = this.validateForm.get('email')?.value;
+        this.userDataService.setEmail(email);
+
+        
         this.authService.registerClient(this.validateForm.value).subscribe({
             next: () => {
-                // this.notification.success(
-                //     'SUCCESS',
-                //     'Signup successful',
-                //     {nzDuration: 5000}
-                // );
                 this.router.navigate(['activate-account']);
             },
             error: (err) => {

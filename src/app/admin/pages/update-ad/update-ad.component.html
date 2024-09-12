@@ -54,6 +54,40 @@
                         </nz-form-item>
                       </div>
 
+                      <!-- Select Category -->
+                       <div nz-col nzSpan="24" style="margin-top: 20px">
+                        <nz-form-item>
+                          <nz-form-control nzHasFeedback [nzXs]="24" nzErrorTip="This input is required">
+                            <nz-select nzPlaceHolder="Select a Category" formControlName="categoryId" (ngModelChange)="onCategoryChange($event)">
+                              <nz-option *ngFor="let category of listofCategories" [nzValue]="category.id" [nzLabel]="category.name"></nz-option>
+                            </nz-select>
+                            <div *ngIf="validateForm.get('categoryId')?.invalid && (validateForm.get('categoryId')?.dirty || validateForm.get('categoryId')?.touched)">
+                              <div class="error-message">
+                                This input is required
+                              </div>
+                            </div>
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>  
+
+                      
+                      <!-- Select Sub-category -->
+                      <div nz-col nzSpan="24" style="margin-top: 20px" *ngIf="listOfSubCategories?.length">
+                        <nz-form-item>
+                          <nz-form-control nzHasFeedback [nzXs]="24" nzErrorTip="This input is required">
+                            <nz-select nzPlaceHolder="Select a Sub-category" formControlName="subCategoryId">
+                              <nz-option *ngFor="let subCategory of listOfSubCategories" [nzValue]="subCategory.id" [nzLabel]="subCategory.name"></nz-option>
+                            </nz-select>
+                            <div *ngIf="validateForm.get('subCategoryId')?.invalid && (validateForm.get('subCategoryId')?.dirty || validateForm.get('subCategoryId')?.touched)">
+                              <div class="error-message">
+                                This input is required
+                              </div>
+                            </div>
+                          </nz-form-control>
+                        </nz-form-item>
+                      </div>
+
+                      
 
                 </div>
 

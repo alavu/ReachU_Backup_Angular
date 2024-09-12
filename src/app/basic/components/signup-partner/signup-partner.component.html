@@ -44,6 +44,14 @@
                     </nz-form-control>
                 </nz-form-item>
 
+                <nz-form-item>
+                    <nz-form-control nzHasFeedback nzErrorTip="The input is not valid lastname!">
+                        <nz-select formControlName="service" placeholder="Select a Service">
+                            <nz-option *ngFor="let service of categories" [nzValue]="service.id" [nzLabel]="service.name"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+
                 <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">
                     Register
                   </button>

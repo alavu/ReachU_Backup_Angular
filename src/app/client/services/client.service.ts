@@ -16,11 +16,12 @@ export class ClientService {
 
     getAllAds(): Observable<any> {
         return this.http.get(BASIC_URL + `api/client/ads`, {
-            headers: this.createAuthorizationHeader()
+            headers: this.createAuthorizationHeader() 
         })
     }
 
     searchAdByName(name: any): Observable<any> {
+        console.log('API Call to:', `/search/${name}`);
         return this.http.get(BASIC_URL + `api/client/search/${name}`, {
             headers: this.createAuthorizationHeader()
         })

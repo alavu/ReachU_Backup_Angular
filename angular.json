@@ -38,6 +38,8 @@
                           "@angular/material/prebuilt-themes/purple-green.css",
                           "src/theme.less",
                           "src/styles.scss",
+                          "src/style.css",
+                            "node_modules/flowbite/dist/flowbite.css",
                           "node_modules/@fortawesome/fontawesome-free/css/all.css"
                         ],
                         "scripts": []

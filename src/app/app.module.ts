@@ -16,23 +16,25 @@ import {GoogleLoginProvider, GoogleSigninButtonModule, SocialAuthServiceConfig} 
 import {environment} from "./basic/services/storage/environment";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {NzButtonModule} from "ng-zorro-antd/button";
-import { AdminLoginComponent } from './admin/pages/admin-login/admin-login.component';
+import { AdminLoginComponent } from './basic/components/admin-login/admin-login.component';
 import { HomeComponent } from './home/home/home.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { ServiceCategoriesComponent } from './home/service-categories/service-categories.component';
 import { ServiceRatingComponent } from './home/service-rating/service-rating.component';
 import { PromotionalBannersComponent } from './home/promotional-banners/promotional-banners.component';
-import { NoteworthyComponent } from './home/noteworthy/noteworthy.component';
 import { HeaderComponent } from './home/header/header.component';
 import { PartnerLoginComponent } from './basic/components/partner-login/partner-login.component';
 import {SignupPartnerComponent} from "./basic/components/signup-partner/signup-partner.component";
-import { MatButtonModule } from '@angular/material/button';
 import { MaterialModule } from './MaterialModule';
-import { HttpClientModule } from '@angular/common/http';
-import { CountdownTimerComponent } from './basic/components/countdown-timer/countdown-timer.component';
-import { ActivateAccountComponent } from './client/pages/activate-account/activate-account.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NzModalModule } from 'ng-zorro-antd/modal';
-
+import { NZ_I18N, en_US } from 'ng-zorro-antd/i18n';
+import { CategoryServiceComponent } from './home/category-service/category-service.component';
+import { CheckoutComponent } from './home/checkout/checkout.component';
+import { ServiceItemsComponent } from './home/service-items/service-items.component';
+import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
+import { CategoryDetailComponent } from './client/pages/category-detail/category-detail.component';
+import { AdminInterceptor } from './admin/services/admin-interceptor.service';
 registerLocaleData(en);
 
 @NgModule({
@@ -45,10 +47,14 @@ registerLocaleData(en);
         PartnerLoginComponent,
         HomeComponent,
         HeaderComponent,
-        NoteworthyComponent,
         PromotionalBannersComponent,
         ServiceCategoriesComponent,
         ServiceRatingComponent,
+        CategoryServiceComponent,
+        CheckoutComponent,
+        ServiceItemsComponent,
+        CategoryDetailComponent,
+
 
     ],
     imports: [
@@ -67,8 +73,15 @@ registerLocaleData(en);
         HttpClientModule,
         MaterialModule,
         MatButtonToggleModule,
+        NzAutocompleteModule,
+    
     ],
     providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AdminInterceptor,
+            multi: true
+        },
         {
             provide: 'SocialAuthServiceConfig',
             useValue: {
@@ -77,10 +90,14 @@ registerLocaleData(en);
                     {
                         id: GoogleLoginProvider.PROVIDER_ID,
                         provider: new GoogleLoginProvider(environment.google_id)
-                    }
+                    },
                 ]
             } as SocialAuthServiceConfig
-        }
+        },
+        { 
+            provide: NZ_I18N, 
+            useValue: en_US 
+          }
     ],
     bootstrap: [AppComponent]
 })

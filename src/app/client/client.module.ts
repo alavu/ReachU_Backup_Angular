@@ -11,6 +11,11 @@ import {ReviewComponent} from './pages/review/review.component';
 import {ActivateAccountComponent} from './pages/activate-account/activate-account.component';
 import {CodeInputModule} from "angular-code-input";
 import { CountdownTimerComponent } from '../basic/components/countdown-timer/countdown-timer.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
+import { AddAddressModalComponent } from './pages/add-address-modal/add-address-modal.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -21,6 +26,8 @@ import { CountdownTimerComponent } from '../basic/components/countdown-timer/cou
         ReviewComponent,
         ActivateAccountComponent,
         CountdownTimerComponent,
+        CheckoutPageComponent,
+        AddAddressModalComponent
     ],
     imports: [
         CommonModule,
@@ -28,7 +35,10 @@ import { CountdownTimerComponent } from '../basic/components/countdown-timer/cou
         DemoNgZorroAntdModule,
         FormsModule,
         ReactiveFormsModule,
-        CodeInputModule
+        CodeInputModule,
+        MatGridListModule,
+        MatMenuModule,
+        MatIconModule
     ]
 })
 export class ClientModule {

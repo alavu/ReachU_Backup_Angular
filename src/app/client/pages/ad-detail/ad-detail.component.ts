@@ -20,6 +20,13 @@ export class AdDetailComponent {
 
   validateForm!: FormGroup;
 
+  durationOptions: string[] = [
+    '1 hour', '1.5 hours', '2 hours', '2.5 hours', '3 hours', '3.5 hours', '4 hours', '4.5 hours', 
+    '5 hours', '5.5 hours', '6 hours', '6.5 hours', '7 hours', '7.5 hours', '8 hours', '8.5 hours', 
+    '9 hours', '1 day', '2 days', '3 days', '4 days', '5 days', '6 days', '1 week', '2 weeks', 
+    '3 weeks', '1 month'
+  ];
+
   constructor(private clientService: ClientService,
     private activatedroute: ActivatedRoute,
     private notification: NzNotificationService,
@@ -29,11 +36,16 @@ export class AdDetailComponent {
   
     ngOnInit(){
       this.validateForm = this.fb.group({
-        bookDate: [null, [Validators.required]]
+        bookDate: [null, [Validators.required]],
+        timeSlot: [null, [Validators.required]],
+        duration: [null, [Validators.required]]
       })
       this.getAdDetailsByAdId();
     }
 
+    disabledDate = (current: Date): boolean => {
+      return current && current < new Date();
+    }
 
     getAdDetailsByAdId(){
       this.clientService.getAdDetailsByAdId(this.adId).subscribe(res=>{
@@ -47,6 +59,10 @@ export class AdDetailComponent {
     bookService(){
       const bookServiceDTO = {
         bookDate : this.validateForm.get(['bookDate']).value,
+
+        timeSlot: this.validateForm.get('timeSlot')?.value,
+        duration: this.validateForm.get('duration')?.value,
+
         adId : this.adId,
         userId: UserStorageService.getUserId()
       }
@@ -58,8 +74,13 @@ export class AdDetailComponent {
           `Request posted successfully`,
           { nzDuration: 5000 }
         );
-        this.router.navigateByUrl('/client/bookings');
+        // this.router.navigateByUrl('/client/bookings');
+        this.router.navigateByUrl('/client/checkout');
       })
+    }
+
+    checkoutPage() {
+      this.router.navigateByUrl('/client/checkout');
     }
 
 }

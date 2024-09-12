@@ -71,6 +71,7 @@ subCategory: Partial<Subcategory> = {
     private subCategoryService: SubCategoryService,
     private categoryService: CategoryService,
     private snackBar: MatSnackBar,
+    private router: Router,
     private notification: NzNotificationService
   ) {}
 
@@ -98,6 +99,16 @@ subCategory: Partial<Subcategory> = {
       return;
     }
 
+    // Check if the category name already exists
+    this.subCategoryService.checkSubCategoryNameExists(this.subCategory.name).subscribe(
+      (exists: boolean) => {
+        if (exists) {
+          this.snackBar.open('Sub Category name already exists! Please choose a unique name.', '', {
+            duration: 3000
+          });
+        }
+        else {
+
     const categoryId = this.subCategory.parentCategoryId;
 
     this.subCategoryService.createSubcategory(this.subCategory, categoryId).subscribe(
@@ -107,6 +118,7 @@ subCategory: Partial<Subcategory> = {
         this.subCategory.description = '';
         this.subCategory.parentCategoryId = null;
         this.notification.success('Success', 'Sub-Category is added successfully');
+        this.router.navigateByUrl('/admin/categories');
       },
       (error) => {
         console.log(error);
@@ -114,4 +126,11 @@ subCategory: Partial<Subcategory> = {
       }
     );
   }
+},
+(error) => {
+  console.log(error);
+  this.notification.error('Error', 'Server error while checking category name');
+}
+);
+}
 }

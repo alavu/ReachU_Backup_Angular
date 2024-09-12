@@ -1,9 +1,171 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/basic/services/auth/auth.service';
-import { UserManagementService } from '../../services/user-management.service';
+// import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 // import { UserManagementService } from '../../services/user-management.service';
-// import { Users } from '../../model/users';
-// import { MatSnackBar } from '@angular/material/snack-bar';
+
+// @Component({
+//     selector: 'app-user-management',
+//     templateUrl: './user-management.component.html',
+//     styleUrls: ['./user-management.component.scss']
+// })
+// export class UserManagementComponent implements OnInit {
+//   // Pagination Testing with Dummy data
+
+//   // Userslist = [
+//   //   { id: '1', name: 'John Doe', email: 'john@example.com', phone: '1234567890', _blocked: false },
+//   //   { id: '2', name: 'Jane Smith', email: 'jane@example.com', phone: '0987654321', _blocked: true },
+//   //   { id: '3', name: 'Mike Johnson', email: 'mike@example.com', phone: '1122334455', _blocked: false },
+//   //   { id: '4', name: 'Emily Davis', email: 'emily@example.com', phone: '2233445566', _blocked: false },
+//   //   { id: '5', name: 'Chris Brown', email: 'chris@example.com', phone: '3344556677', _blocked: true },
+//   //   { id: '6', name: 'Laura Wilson', email: 'laura@example.com', phone: '4455667788', _blocked: false },
+//   //   { id: '7', name: 'Robert Lee', email: 'robert@example.com', phone: '5566778899', _blocked: true },
+//   //   { id: '8', name: 'Paul Walker', email: 'paul@example.com', phone: '6677889900', _blocked: false },
+//   //   { id: '9', name: 'Mia Jones', email: 'mia@example.com', phone: '7788990011', _blocked: false },
+//   //   { id: '10', name: 'Steve Miller', email: 'steve@example.com', phone: '8899001122', _blocked: false },
+//   //   // Add more dummy users as needed for testing
+//   // ];
+  
+//   Userslist: any[] = [];
+//   filteredUsers: any[] = [];
+//   paginatedUsers: any[] = [];
+//   searchQuery: string = '';
+//   currentPage: number = 1;
+//   pageSize: number = 10;
+//   totalPages: number = 1;
+
+//   constructor(
+//     private userManagementService: UserManagementService,
+//     private changeDetector: ChangeDetectorRef) {}
+
+//   ngOnInit(): void {
+//     this.getAllUsers();
+//   }
+
+//   getAllUsers() {
+//     this.userManagementService.getAllUsers().subscribe(
+//       (response) => {
+//         console.log("User data received from backend:", response);
+//         if (response && Array.isArray(response)) {
+//             this.Userslist = response;
+//             this.filteredUsers = response;
+//             this.calculatePagination();
+//             this.updatePaginatedUsers();
+//             this.changeDetector.detectChanges();
+//         } else {
+//             console.error('Unexpected response format:', response);
+//         }
+//       },
+//       (error) => {
+//         console.error('Error fetching user list:', error);
+//       }
+//     );
+//   }
+
+//   filterUsers() {
+//     this.filteredUsers = this.Userslist.filter(user => 
+//       user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+//       user.email.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+//       user.phone.includes(this.searchQuery)
+//     );
+//     this.calculatePagination();
+//     this.updatePaginatedUsers();
+//   }
+
+//   calculatePagination() {
+//     this.totalPages = Math.ceil(this.filteredUsers.length / this.pageSize);
+//     if (this.currentPage > this.totalPages) {
+//       this.currentPage = this.totalPages;
+//     }
+//   }
+
+//   updatePaginatedUsers() {
+//     const startIndex = (this.currentPage - 1) * this.pageSize;
+//     const endIndex = startIndex + this.pageSize;
+//     this.paginatedUsers = this.filteredUsers.slice(startIndex, endIndex);
+//   }
+
+//   previousPage() {
+//     if (this.currentPage > 1) {
+//       this.currentPage--;
+//       this.updatePaginatedUsers();
+//     }
+//   }
+
+//   nextPage() {
+//     if (this.currentPage < this.totalPages) {
+//       this.currentPage++;
+//       this.updatePaginatedUsers();
+//     }
+//   }
+
+//   // blockUser(userId: string) {
+//   //   this.userManagementService.blockUser(userId).subscribe(
+//   //     (response) => {
+//   //       console.log("User blocked successfully:", response);
+//   //       this.updateUserStatus(userId, true);
+//   //       this.changeDetector.detectChanges(); 
+//   //     },
+//   //     (error) => {
+//   //       console.error('Error blocking user:', error);
+//   //     }
+//   //   );
+//   // }
+
+//   // blockUser(userId: string) {
+//   //   this.userManagementService.blockUser(userId).subscribe(
+//   //     (response) => {
+//   //       console.log("User blocked successfully:", response);
+//   //       this.updateUserStatus(userId, response._blocked);
+//   //       this.changeDetector.detectChanges(); 
+//   //     },
+//   //     (error) => {
+//   //       console.error('Error blocking user:', error);
+//   //     }
+//   //   );
+//   // }
+
+//   blockUser(userId: string) {
+//     this.userManagementService.blockUser(userId).subscribe(
+//       (response) => {
+//         console.log("responce test:", response)
+//         if (response && response._blocked !== undefined) {
+//           console.log("User blocked successfully:", response);
+//           this.updateUserStatus(userId, response._blocked); // Safely access _blocked
+//           this.changeDetector.detectChanges(); 
+//         } else {
+//           console.error('Unexpected response format or null response:', response);
+//         }
+//       },
+//       (error) => {
+//         console.error('Error blocking user:', error);
+//       }
+//     );
+//   }
+  
+
+//   UnblockUser(userId: string) {
+//     this.userManagementService.unblockUser(userId).subscribe(
+//       (response) => {
+//         console.log("User unblocked successfully:", response);
+//         this.updateUserStatus(userId, false);
+//         this.changeDetector.detectChanges(); 
+//       },
+//       (error) => {
+//         console.error('Error unblocking user:', error);
+//       }
+//     );
+//   }
+
+//   updateUserStatus(userId: string, isBlocked: boolean) {
+//     const user = this.Userslist.find(user => user.id === userId);
+//     if (user) {
+//       user._blocked = isBlocked;
+//       console.log("User status testing..", user._blocked);
+//       this.filterUsers(); 
+//     }
+//   }
+// }
+
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { UserManagementService } from '../../services/user-management.service';
 
 @Component({
     selector: 'app-user-management',
@@ -11,84 +173,31 @@ import { UserManagementService } from '../../services/user-management.service';
     styleUrls: ['./user-management.component.scss']
 })
 export class UserManagementComponent implements OnInit {
-//     users: Users[] = [];
+  // Pagination Testing with Dummy data
 
-//     constructor(
-//         private userManagementService: UserManagementService,
-//         private snackBar: MatSnackBar,
-//         private changeDetector: ChangeDetectorRef
-//     ) {}
+  // Userslist = [
+  //   { id: '1', name: 'John Doe', email: 'john@example.com', phone: '1234567890', blocked: false },
+  //   { id: '2', name: 'Jane Smith', email: 'jane@example.com', phone: '0987654321', blocked: true },
+  //   { id: '3', name: 'Mike Johnson', email: 'mike@example.com', phone: '1122334455', blocked: false },
+  //   { id: '4', name: 'Emily Davis', email: 'emily@example.com', phone: '2233445566', blocked: false },
+  //   { id: '5', name: 'Chris Brown', email: 'chris@example.com', phone: '3344556677', blocked: true },
+  //   { id: '6', name: 'Laura Wilson', email: 'laura@example.com', phone: '4455667788', blocked: false },
+  //   { id: '7', name: 'Robert Lee', email: 'robert@example.com', phone: '5566778899', blocked: true },
+  //   { id: '8', name: 'Paul Walker', email: 'paul@example.com', phone: '6677889900', blocked: false },
+  //   { id: '9', name: 'Mia Jones', email: 'mia@example.com', phone: '7788990011', blocked: false },
+  //   { id: '10', name: 'Steve Miller', email: 'steve@example.com', phone: '8899001122', blocked: false },
+  //   // Add more dummy users as needed for testing
+  // ];
+  
+  Userslist: any[] = [];
+  filteredUsers: any[] = [];
+  paginatedUsers: any[] = [];
+  searchQuery: string = '';
+  currentPage: number = 1;
+  pageSize: number = 10;
+  totalPages: number = 1;
 
-//     ngOnInit(): void {
-//         this.loadUsers();
-//     }
-
-//     loadUsers(): void {
-//         // Load users from your backend API
-//         this.userManagementService.getAllUsers().subscribe(data => {
-//             console.log("DATA   ", data)
-//             this.users = data.map(user => ({
-//                 ...user,
-//                 status: user.is_blocked ? 'INACTIVE' : 'ACTIVE'
-//             }));
-//             this.changeDetector.detectChanges();
-//         });
-//     }
-
-//     toggleUserStatus(user: Users): void {
-//         if (user.status === 'ACTIVE') {
-//             this.blockUser(user.id);
-//         } else {
-//             this.unblockUser(user.id);
-//         }
-//     }
-
-//     blockUser(userId: number): void {
-//         const user = this.users.find(u => u.id === userId);
-//         if (user) {
-//             this.userManagementService.blockUser(userId).subscribe({
-//                 next: (response) => {
-//                     this.snackBar.open('Blocked successfully', 'Close', { duration: 1000 });
-//                     console.log(`User ${userId} blocked successfully. Response:`, response);
-//                     console.log(`User ${userId} blocked successfully.`);
-//                     this.updateUserStatus(userId, 0, 'INACTIVE');  // 0 means inactive
-//                 },
-//                 error: (err) => {
-//                     console.error('Error blocking user:', err);
-//                 }
-//             });
-//         }
-//     }
-
-
-//     unblockUser(userId: number): void {
-//         const user = this.users.find(u => u.id === userId);
-//         if (user) {
-//             this.userManagementService.unblockUser(userId).subscribe({
-//                 next: () => {
-//                     this.snackBar.open('Unblocked successfully', 'Close', { duration: 1000 });
-//                     console.log(`User ${userId} unblocked successfully.`);
-//                     this.updateUserStatus(userId, 1, 'ACTIVE');  // 1 means active
-//                 },
-//                 error: (err) => {
-//                     console.error('Error unblocking user:', err);
-//                 }
-//             });
-//         }
-//     }
-
-//     updateUserStatus(userId: number, is_blocked: number, status: string): void {
-//         const user = this.users.find(u => u.id === userId);
-//         if (user) {
-//             user.is_blocked = Boolean(is_blocked);
-//             user.status = status;
-//             this.changeDetector.markForCheck();  // Trigger change detection
-//         }
-//     }
-// }
-Userslist: any[] = [];
-
-  constructor( 
+  constructor(
     private userManagementService: UserManagementService,
     private changeDetector: ChangeDetectorRef) {}
 
@@ -98,54 +207,97 @@ Userslist: any[] = [];
 
   getAllUsers() {
     this.userManagementService.getAllUsers().subscribe(
-        (response) => {
-            console.log("User data received from backend:", response);
-            if (response && Array.isArray(response)) {
-                this.Userslist = response;
-                console.log("Userslist updated:", this.Userslist);
-            } else {
-                console.error('Unexpected response format:', response);
-            }
-        },
-        (error) => {
-            console.error('Error fetching user list:', error);
+      (response) => {
+        console.log("User data received from backend:", response);
+        console.log(Array.isArray(response))
+        if (response && Array.isArray(response)) {
+            this.Userslist = response;
+            this.filteredUsers = response;
+            this.calculatePagination();
+            this.updatePaginatedUsers();
+            this.changeDetector.detectChanges();
+        } else {
+            console.error('Unexpected response format:', response);
         }
+      },
+      (error) => {
+        console.error('Error fetching user list:', error);
+      }
     );
-}
+  }
+
+  filterUsers() {
+    this.filteredUsers = this.Userslist.filter(user => 
+      user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+      user.email.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      user.phone.includes(this.searchQuery)
+    );
+    this.calculatePagination();
+    this.updatePaginatedUsers();
+  }
+
+  calculatePagination() {
+    this.totalPages = Math.ceil(this.filteredUsers.length / this.pageSize);
+    console.log("Total page", this.totalPages)
+    if (this.currentPage > this.totalPages) {
+      console.log("Current page", this.currentPage)
+      this.currentPage = this.totalPages;
+    }
+  }
+
+  updatePaginatedUsers() {
+    const startIndex = (this.currentPage - 1) * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
+    this.paginatedUsers = this.filteredUsers.slice(startIndex, endIndex);
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedUsers();
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedUsers();
+    }
+  }
 
   blockUser(userId: string) {
     this.userManagementService.blockUser(userId).subscribe(
       (response) => {
         console.log("User blocked successfully:", response);
-        this.updateUserStatus(userId, true);
-        // Optionally update Userslist or handle success feedback
+        this.updateUserStatus(userId, response.blocked);
+        // this.changeDetector.detectChanges(); 
       },
       (error) => {
         console.error('Error blocking user:', error);
-        // Handle error feedback
       }
     );
   }
+
   UnblockUser(userId: string) {
     this.userManagementService.unblockUser(userId).subscribe(
       (response) => {
-        console.log("User Unblocked successfully:", response);
-        this.updateUserStatus(userId, false);
-        // Optionally update Userslist or handle success feedback
+        console.log("User unblocked successfully:", response);
+        this.updateUserStatus(userId, response.blocked);
+        this.changeDetector.detectChanges(); 
       },
       (error) => {
-        console.error('Error blocking user:', error);
-        // Handle error feedback
+        console.error('Error unblocking user:', error);
       }
     );
   }
 
   updateUserStatus(userId: string, isBlocked: boolean) {
-    const user = this.Userslist.find(u => u.id === userId);
+    const user = this.Userslist.find(user => user.id === userId);
     if (user) {
-      user._blocked = isBlocked;
-      user.status = isBlocked ? 'INACTIVE' : 'ACTIVE';
-      this.changeDetector.detectChanges(); // Trigger change detection
+      user.blocked = isBlocked;
+      this.filterUsers(); 
+      this.changeDetector.detectChanges();
     }
   }
 }
+

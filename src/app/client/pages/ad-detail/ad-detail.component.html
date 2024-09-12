@@ -14,8 +14,12 @@
                         Price : <b>{{ad.price}}</b>
                     </h5>
                     <h5>
-                        Description : <b>{{ ad.description }}</b> - Company Name :
-                        <b>{{ ad.companyName }}</b>
+                        Description : <b>{{ ad.description }}</b>
+                        <div nz-ow>
+                        Company Name :
+                            <b>ReachU</b>
+                        </div>
+                       
                     </h5>
                 </div>
             </div>
@@ -30,17 +34,55 @@
                                 <nz-form-item>
                                     <nz-form-label [nzSpan]="24" nzFor="bookDate">Date of Booking</nz-form-label>
                                     <nz-form-control [nzSpan]="24">
-                                        <nz-date-picker formControlName="bookDate" name="bookDate" id="bookDate">
-                                        </nz-date-picker>
+                                      <nz-date-picker 
+                                        formControlName="bookDate" 
+                                        name="bookDate" 
+                                        id="bookDate" 
+                                        [nzDisabledDate]="disabledDate">
+                                      </nz-date-picker>
                                     </nz-form-control>
-                                </nz-form-item>
-
+                                  </nz-form-item>
                             </div>
                         </div>
-                        <button nz-button [nzType]="'primary'" [disabled]="validateForm.invalid"
-                            (click)="bookService()">
+
+                        <div *ngIf="validateForm.get('bookDate').value">
+                            <nz-form-item>
+                              <nz-form-label [nzSpan]="24" nzFor="timeSlot">Select Time Slot</nz-form-label>
+                              <nz-form-control [nzSpan]="24">
+                                <nz-time-picker 
+                                formControlName="timeSlot" 
+                                name="timeSlot" 
+                                id="timeSlot"
+                                [nzFormat]="'h:mm a'" 
+                                [nzMinuteStep]="30"
+                                [nzUse12Hours]="true">
+                                </nz-time-picker>
+
+                              </nz-form-control>
+                            </nz-form-item>
+
+                            <nz-form-item>
+                                <nz-form-label [nzSpan]="24" nzFor="duration">How many hours would you like to book?</nz-form-label>
+                                <nz-form-control [nzSpan]="24">
+                                  <nz-select 
+                                    formControlName="duration" 
+                                    name="duration" 
+                                    id="duration" 
+                                    placeholder="Select duration">
+                                    <nz-option *ngFor="let option of durationOptions" [nzValue]="option" [nzLabel]="option"></nz-option>
+                                  </nz-select>
+                                </nz-form-control>
+                              </nz-form-item>
+                              
+                          </div>
+                        
+                          <!-- <button nz-button [nzType]="'primary'" [disabled]="validateForm.invalid" (click)="bookService()">
                             Book
-                        </button>
+                          </button> -->
+
+                          <button nz-button [nzType]="'primary'" [disabled]="validateForm.invalid" (click)="checkoutPage()">
+                            Continue
+                          </button>
 
                     </form>
                 </div>

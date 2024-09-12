@@ -13,7 +13,8 @@
         <div class="activation-error">
           <h2 class="text-2xl font-semibold text-red-600">Activation Failed!</h2>
           <p class="text-gray-600 mt-4">{{ message }}</p>
-          <button class="w-full mt-6 bg-blue-600 text-white py-2 rounded hover:bg-blue-700" (click)="submitted = false">Try again</button>
+          <button class="w-full mt-6 bg-blue-600 text-white py-2 rounded hover:bg-blue-700" (click)="requestActivationCode()">Try again</button>
+
         </div>
       </ng-template>
       <!-- Timer visibility controlled by showTimer flag -->
@@ -38,7 +39,8 @@
         <app-countdown-timer [durationInSeconds]="60" (tokenExpired)="onTokenExpired()"></app-countdown-timer>
       </div>
       <p class="text-center mt-4 text-gray-600">
-        Didn't receive code? <a class="text-blue-600 hover:underline" (click)="requestActivationCode()">Request again</a>
+        <!-- Didn't receive code? <a class="text-blue-600 hover:underline" (click)="requestActivationCode()">Request again</a> -->
+        Didn't receive code? Wait until 1 minute and try again!!
       </p>
     </ng-template>
   </div> <!-- Closing this div ends the white box container -->

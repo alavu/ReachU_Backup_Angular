@@ -1,10 +1,9 @@
-
-
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AuthService } from '../../services/auth/auth.service';
+import { CategoryService } from 'src/app/admin/services/category.service';
 
 @Component({
   selector: 'app-signup-company',
@@ -15,9 +14,11 @@ export class SignupPartnerComponent {
 
   validateForm!: FormGroup;
   errorMsg: Array<string> = [];
+  categories: any[] = [];
 
   constructor(private fb: FormBuilder,
     private authService: AuthService,
+    private category: CategoryService,
     private notification: NzNotificationService,
     private router: Router){}
 
@@ -25,19 +26,51 @@ export class SignupPartnerComponent {
       this.validateForm = this.fb.group({
         email: [null, [Validators.email, Validators.required]],
         name : [null, [Validators.required]],
+        lastname: [null],
         address : [null, [Validators.required]],
         phone : [null],
         password : [null, [Validators.required]],
         checkPassword : [null, [Validators.required]],
+        service: [null, [Validators.required]]
       })
+      this.loadCategories();
+    }
+
+    // Fetch services
+    loadCategories(): void {
+      this.category.categories().subscribe(
+        (data: any) => {
+          this.categories = data;
+          console.log(this.categories);
+        },
+        (error: any) => {
+          console.error('Failed to fetch service:', error);
+          this.notification.error('ERROR', 'Failed to load service', { nzDuration: 5000 });
+        }
+      );
     }
 
     submitForm(){
-      this.authService.registerCompany(this.validateForm.value) .subscribe({
+      if (this.validateForm.valid) {
+        // Get the selected service ID
+        const selectedServiceId = this.validateForm.get('service')?.value;
+  
+        // Find the corresponding service name
+        const selectedService = this.categories.find(service => service.id === selectedServiceId);
+        const serviceName = selectedService ? selectedService.name : null;
+  
+        // Prepare the payload with the service name instead of the ID
+        const payload = {
+          ...this.validateForm.value,
+          service: serviceName // Replace ID with service name
+        };
+
+      this.authService.registerPartner(payload) .subscribe({
         next: () => {
-          this.router.navigate(['partner']);
+          this.router.navigate(['activate-account']);
         },
         error: (err) => {
+          console.log('Error:', err); 
           this.errorMsg = err.error.validationErrors;
         }
       });
@@ -67,4 +100,5 @@ export class SignupPartnerComponent {
         )
       });*/
 
-}
+    }
+  }

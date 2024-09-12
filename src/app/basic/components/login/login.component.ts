@@ -1,11 +1,13 @@
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {NzNotificationService} from 'ng-zorro-antd/notification';
-import {AuthService} from '../../services/auth/auth.service';
-import {Component, NgZone, OnInit} from "@angular/core";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {environment} from "../../services/storage/environment";
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { AuthService } from '../../services/auth/auth.service';
+import { Component, NgZone, OnInit } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { environment } from "../../services/storage/environment";
 import { UserStorageService } from '../../services/storage/user-stoarge.service';
+import { HeaderComponent } from 'src/app/home/header/header.component';
+import { GoogleAuthService } from '../../services/auth/google-auth.service';
 
 declare const google: any;
 
@@ -17,11 +19,13 @@ declare const google: any;
 export class LoginComponent implements OnInit {
 
     validateForm!: FormGroup;
+    private headerComponent: HeaderComponent;
     // isSpinning = false;
 
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
+        private googleAuthService: GoogleAuthService,
         private ngZone: NgZone,
         private snackBar: MatSnackBar,
         private notification: NzNotificationService,
@@ -29,59 +33,6 @@ export class LoginComponent implements OnInit {
     ) {
     }
 
-    /*submitForm() {
-        this.isSpinning = true;
-        this.authService.login(this.validateForm.get(['userName'])!.value,
-            this.validateForm.get(['password'])!.value)
-            .subscribe(
-                res => {
-                    console.log(res);
-                    if (UserStoargeService.isClientLoggedIn()) {
-                        this.router.navigateByUrl('client/dashboard');
-                    }
-                   /!* else if (UserStoargeService.isCompanyLoggedIn()) {
-                        this.router.navigateByUrl('company/dashboard');
-                    }*!/
-                    this.isSpinning = false;
-                },
-                error => {
-                    this.notification.error(
-                        'ERROR',
-                        `Bad credentials`,
-                        {nzDuration: 5000}
-                    );
-                    this.isSpinning = false;
-                }
-            );
-    }*/
-
-    // submitForm() {
-    //     // this.isSpinning = true;
-    //     this.authService.login(this.validateForm.get(['userName'])!.value,
-    //         this.validateForm.get(['password'])!.value)
-    //         .subscribe(
-    //             res => {
-    //                 console.log(res);
-                    // if (UserStorageService.isUserLoggedIn()) {
-                    //     this.router.navigateByUrl('client/dashboard');
-                    // }
-                    // /* else if (UserStoargeService.isCompanyLoggedIn()) {
-                    //      this.router.navigateByUrl('company/dashboard');
-                    //  }*/
-    //                 // this.isSpinning = false;
-    //             },
-    //             error => {
-    //                 this.notification.error(
-    //                     'ERROR',
-    //                     `Bad credentials`,
-    //                     {nzDuration: 5000}
-    //                 );
-    //                 // this.isSpinning = false;
-    //             }
-    //         );
-    // }
-
-   
     private decodeToken(token: string): any {
         try {
             return JSON.parse(atob(token.split(".")[1]));
@@ -91,7 +42,7 @@ export class LoginComponent implements OnInit {
         }
     }
 
-// Google login handling
+    // Google login handling
     handleLogin(response: any) {
         if (response) {
             console.log(response.credential);
@@ -100,9 +51,10 @@ export class LoginComponent implements OnInit {
             console.log(result);
 
             if (result) {
-                this.authService.googleLogin({data: result}).subscribe({
+                this.authService.googleLogin({ data: result }).subscribe({
                     next: (res: any) => {
                         localStorage.setItem('jwtToken', res.token);
+                        this.googleAuthService.updateGoogleLoginStatus(true); // Update the shared service
                         this.snackBar.open('Google Sign-In Success', 'Success', {
                             duration: 3000,
                         });
@@ -154,60 +106,31 @@ export class LoginComponent implements OnInit {
         // }, 1000);
     }
 
-    
-
-    // submitForm() {
-    //     this.authService.isUserlogin(this.validateForm.value)
-    //     .subscribe({
-    //         next: (res: LoginResponse) => {
-    //             console.log('Login Response:', res);
-
-    //             console.log(res.)
-    
-               
-    //                 if (UserStorageService.isUserLoggedIn()) {
-    //                     this.router.navigateByUrl('client/dashboard');
-                    
-    //                     if (res.success) {
-    //                     this.snackBar.open("Login successful", "Close", {duration: 3000});
-    //                 }
-    //             } else {
-    //                 this.snackBar.open("Invalid credentials.", "Close", {duration: 3000, panelClass: "error-snackbar"});
-    //             }
-    //         },
-    //         error: (err) => {
-    //             console.error('Login Error:', err);
-    //             this.snackBar.open("An error occurred. Please try again.", "Close", {
-    //                 duration: 5000,
-    //                 panelClass: "error-snackbar"
-    //             });
-    //         }
-    //     });
-    // }
-    
     submitForm() {
+        // debugger
         this.authService.isUserlogin(this.validateForm.value).subscribe({
             next: (res: LoginResponse) => { // Use the LoginResponse interface here
                 console.log('Login Response:', res);
-    
-                if (res.email != null) {
+
+                if (res.token != null) {
                     const user = {
-                        id: res.email,
+                        token: res.token,
                         role: res.userRole,
+                        userId: res.userId
                     };
-    
+
                     console.log('user role :', res.userRole);
                     console.log('User:', user);
                     UserStorageService.saveUser(user);
-    
+
                     const token = res.token;
                     console.log('JWT Token:', token);
                     UserStorageService.saveToken(token);
-    
+
                     if (UserStorageService.isUserLoggedIn) {
                         this.router.navigateByUrl('home');
                     }
-                    
+
                     this.snackBar.open("Login successful", "Close", { duration: 3000 });
                 } else {
                     this.snackBar.open("Invalid credentials.", "Close", { duration: 3000, panelClass: "error-snackbar" });
@@ -224,15 +147,17 @@ export class LoginComponent implements OnInit {
                     this.snackBar.open("An error occurred. Please try again.", "Close", {
                         duration: 5000,
                         panelClass: "error-snackbar"
-                });
+                    });
+                }
             }
-        }
-    });
-}
+        });
+    }
 }
 
 interface LoginResponse {
     email: string;
+    userId: number;
     userRole: string;
     token: string;
+    refreshToken: string;
 }

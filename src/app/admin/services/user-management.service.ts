@@ -12,21 +12,6 @@ export class UserManagementService {
 
     constructor(private http: HttpClient) { }
 
-/*    getAllUsers(): Observable<any[]> {
-        return this.http.get<any[]>(`${BASE_URL}/api/users/list`, {
-        });
-    }
-
-    blockUser(userId: number): Observable<void> {
-        return this.http.post<void>(`${BASE_URL}/api/users/${userId}/block`, null, {
-        });
-    }
-
-    unblockUser(userId: number): Observable<void> {
-        return this.http.post<void>(`${BASE_URL}/api/users/${userId}/unblock`, null, {
-        });
-    }*/
-
     private createAuthorizationHeader(): HttpHeaders {
         let authHeaders: HttpHeaders = new HttpHeaders();
         return authHeaders.set(
@@ -46,25 +31,13 @@ export class UserManagementService {
         });
     }
 
-    // blockUser(userId: number): Observable<void> {
-    //     return this.http.put<void>(`${BASE_URL}/api/users/block/${userId}`, {}, {
-    //         // headers: this.createAuthorizationHeader()
-    //     });
-    // }
-
-    blockUser(userId: string): Observable<void> {
-        return this.http.put<void>(`${BASE_URL}/api/users/block/${userId}`, {}, {
+    blockUser(userId: string): Observable<any> {
+        return this.http.put<any>(`${BASE_URL}/api/users/block/${userId}`, {}, {
             // headers: this.createAuthorizationHeader()
         });
     }
 
-    // unblockUser(userId: number): Observable<void> {
-    //     return this.http.put<void>(`${BASE_URL}/api/users/unblock/${userId}`, {}, {
-    //         // headers: this.createAuthorizationHeader()
-    //     });
-    // }
-
-    unblockUser(userId: string): Observable<void> {
+    unblockUser(userId: string): Observable<any> {
         return this.http.put<void>(`${BASE_URL}/api/users/unblock/${userId}`, {}, {
             // headers: this.createAuthorizationHeader()
         });

@@ -1,30 +1,49 @@
-import {Component,ChangeDetectorRef, OnInit} from '@angular/core';
-import {NavigationEnd, Router} from "@angular/router";
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from "@angular/router";
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { AuthService } from 'src/app/basic/services/auth/auth.service';
+import { GoogleAuthService } from 'src/app/basic/services/auth/google-auth.service';
 import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
     
     isClientLoggedIn: boolean = false;
     isAdminLoggedIn: boolean = false;
     isPartnerLoggedIn: boolean = false;
-    isGoogleLogin : boolean = false;
+    isGoogleLogin: boolean = false;
+
     showHeader: boolean = true; // Cntrol header visibility
 
-    constructor(private router: Router, private authService: AuthService, private cdr: ChangeDetectorRef,  private notification: NzNotificationService) {}
+    constructor(
+        private router: Router,
+        private authService: AuthService,
+        private googleAuthService: GoogleAuthService,
+        private cdr: ChangeDetectorRef,
+        private notification: NzNotificationService) { }
 
     ngOnInit(): void {
+        const currentRoute = this.router.url;
+        if (currentRoute == 'admin') {
+            this.showHeader = false
+        }
+        this.updateHeaderVisibility();
         this.checkLoginStatus();
+
+        this.googleAuthService.googleLoginStatus$.subscribe(status => {
+            this.isGoogleLogin = status;
+            console.log("Google Login", this.isGoogleLogin)
+            this.updateHeaderVisibility();
+          });
 
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.checkLoginStatus();
+                this.updateHeaderVisibility();  
             }
         });
     }
@@ -33,12 +52,13 @@ export class HeaderComponent implements OnInit {
         this.isClientLoggedIn = UserStorageService.isUserLoggedIn();
         this.isAdminLoggedIn = UserStorageService.isAdminLoggedIn();
         this.isPartnerLoggedIn = UserStorageService.isPartnerLoggedIn();
-    
+
         // Check Google login status
         this.authService.checkGoogleLogin().subscribe(
             (response: any) => {
+                console.log("Google status :", response)
                 this.isGoogleLogin = response.loggedIn; // Make sure this matches your backend response
-                console.log("Google response", response);
+                console.log("Google response", this.isGoogleLogin);
                 this.updateHeaderVisibility();
             },
             (error) => {
@@ -47,21 +67,27 @@ export class HeaderComponent implements OnInit {
             }
         );
     }
-    
     updateHeaderVisibility(): void {
-        // Show header if not an admin or if client/partner is logged in or Google login is active
-        this.showHeader = !this.isAdminLoggedIn || this.isClientLoggedIn || this.isPartnerLoggedIn || this.isGoogleLogin;
-    
-        console.log('Header Status:', {
-            isClientLoggedIn: this.isClientLoggedIn,
-            isAdminLoggedIn: this.isAdminLoggedIn,
-            isPartnerLoggedIn: this.isPartnerLoggedIn,
-            isGoogleLogin: this.isGoogleLogin,
-            showHeader: this.showHeader
-        });
-        this.cdr.detectChanges();
-    }
-    
+       // Hide the header only if the admin is logged in
+       this.showHeader = !this.isAdminLoggedIn ||(this.isClientLoggedIn || this.isPartnerLoggedIn || this.isGoogleLogin);
+
+       const currentRoute = this.router.url;
+       console.log('Current Route:', currentRoute);
+
+       // Hide the header if the route is '/admin' or '/admin/login'
+       this.showHeader = !currentRoute.includes('/admin');
+
+       console.log('Header Status:', {
+           isClientLoggedIn: this.isClientLoggedIn,
+           isAdminLoggedIn: this.isAdminLoggedIn,
+           isPartnerLoggedIn: this.isPartnerLoggedIn,
+           isGoogleLogin: this.isGoogleLogin,
+           showHeader: this.showHeader
+           
+       });
+       this.cdr.detectChanges();
+   }
+
     logout() {
         console.log('Logout function called');
         UserStorageService.signOut();
@@ -69,5 +95,5 @@ export class HeaderComponent implements OnInit {
         this.authService.signOut();
         this.notification.success('Logout Successful', 'You have been logged out successfully.');
         this.router.navigateByUrl('/home');
-      }
+    }
 }

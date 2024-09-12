@@ -16,11 +16,9 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {CompanyDashboardComponent} from "../company/pages/company-dashboard/company-dashboard.component";
 import {DemoNgZorroAntdModule} from "../DemoNgZorroAntdModule";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AdminLoginComponent} from "./pages/admin-login/admin-login.component";
-import { UserStorageService } from '../basic/services/storage/user-stoarge.service';
+import {AdminLoginComponent} from "../basic/components/admin-login/admin-login.component";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MaterialModule} from "../MaterialModule";
-import {PromotionalBannersComponent} from "../home/promotional-banners/promotional-banners.component";
 import { NzTableModule } from 'ng-zorro-antd/table';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
@@ -29,6 +27,18 @@ import { UserManagementComponent } from './pages/user-management/user-management
 import { ViewCategoriesComponent } from './pages/category/view-categories/view-categories.component';
 import { AddCategoryComponent } from './pages/category/add-category/add-category.component';
 import { SubcategoryComponent } from './pages/category/subcategory-component/subcategory-component.component';
+import { EditCategoryDialogComponent } from './pages/category/edit-category-dialog/edit-category-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { CreateServiceComponent } from './pages/create-service/create-service.component';
+import { RouterModule } from '@angular/router';
+import { AllAdsComponent } from './pages/all-ads/all-ads.component';
+import { UpdateAdComponent } from './pages/update-ad/update-ad.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AdminInterceptor } from './services/admin-interceptor.service';
+import { HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angular/platform-browser';
+
 // import {SubcategoryComponent} from "./pages/category/subcategory-component/subcategory-component.component";
 // import {PostCategoryComponent} from "./pages/category/post-category/post-category.component";
 
@@ -42,34 +52,42 @@ import { SubcategoryComponent } from './pages/category/subcategory-component/sub
         UserManagementComponent,
         AddCategoryComponent,
         AdminDashboardComponent,
-        ViewCategoriesComponent
+        ViewCategoriesComponent,
+        CreateServiceComponent,
+        EditCategoryDialogComponent,
+        AllAdsComponent,
+        UpdateAdComponent,
 
-
-        // CreateAdComponent,
-        // AllAdsComponent,
-        // UpdateAdComponent,
-        // UserManagementComponent,
-        // PostCategoryComponent,
-        // SubcategoryComponent
     ],
     imports: [
         CommonModule,
+        RouterModule,
         FormsModule,
         AdminRoutingModule,
         DemoNgZorroAntdModule,
         ReactiveFormsModule,
         MatButtonToggleModule,
         MatButtonModule,
+        MatPaginatorModule,
         MatTooltipModule,
+        MatDialogModule,
+        MatInputModule,
         MatButtonModule,
         NzTableModule,
         FontAwesomeModule,
         MatFormFieldModule,
-        MaterialModule
+        MaterialModule,
+        HammerModule
     ],
     providers: [
-        UserStorageService,
-      ]
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AdminInterceptor,
+            multi: true
+        },
+        {provide: HAMMER_GESTURE_CONFIG, useClass: HammerGestureConfig}
+
+    ]
 })
 export class AdminModule {
 }
