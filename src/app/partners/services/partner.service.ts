@@ -34,8 +34,17 @@ export class PartnerService {
     //   );
     // }
 
-    updatePartner(partner: any) {
-      return this.http.put(`${this.apiUrl}/${partner.id}`, partner);
+    updatePartner(partnerId: string, partnerData: FormData) {
+      return this.http.put(`${this.apiUrl}/${partnerId}`, partnerData, {
+      });
+    }
+    
+    getDashboardStats(): Observable<any> {
+      return this.http.get('/api/partner/dashboard');
+    }
+
+    getGraphData(period: string): Observable<any> {
+      return this.http.get(`/api/partner/dashboard/graph?period=${period}`);
     }
     
 

@@ -55,7 +55,7 @@
             <div>
                 <button [disabled]="!addressSelected" class="bg-blue-600 text-white w-full py-3 rounded-lg
                     hover:bg-blue-700 transition duration-300" [class.cursor-not-allowed]="!addressSelected"
-                    [class.opacity-50]="!addressSelected">
+                    [class.opacity-50]="!addressSelected" (click)="pay()">
                     Proceed to Payment
                 </button>
             </div>
@@ -64,24 +64,24 @@
         <!-- Right Side -->
         <div class="md:w-1/2 bg-white rounded-lg shadow-md p-6 space-y-6 mx-auto p-6">
             <!-- Payment Summary Section -->
-            <div>
+            <div *ngIf="ad">
                 <div class="text-gray-600 font-semibold mb-4">Payment Summary</div>
                 <div class="flex justify-between mb-2">
-                    <p class="text-gray-600">Item total</p>
-                    <p class="font-semibold">₹2,249</p>
+                  <p class="text-gray-600">Item total</p>
+                  <p class="font-semibold">₹{{ ad.price }}</p>
                 </div>
                 <div class="flex justify-between mb-2">
-                    <p class="text-gray-600">Item discount</p>
-                    <p class="text-green-600 font-semibold">-₹50</p>
+                  <p class="text-gray-600">Item discount</p>
+                  <p class="text-green-600 font-semibold">-₹50</p>
                 </div>
                 <div class="flex justify-between mb-2">
-                    <p class="text-gray-600">Taxes and Fee</p>
-                    <p class="font-semibold">₹79</p>
+                  <p class="text-gray-600">Taxes and Fee</p>
+                  <p class="font-semibold">₹79</p>
                 </div>
                 <hr class="my-2 border-gray-300">
                 <div class="flex justify-between mb-4">
-                    <p class="text-gray-600 font-semibold">Total</p>
-                    <p class="font-semibold">₹2,278</p>
+                  <p class="text-gray-600 font-semibold">Total</p>
+                  <p class="font-semibold">₹{{ calculateTotal(ad.price) }}</p>
                 </div>
             </div>
 
@@ -90,6 +90,7 @@
                 <div class="flex justify-between mb-2">
                     <p class="text-gray-600">Add a tip to thank the Professional</p>
                     <select class="border rounded-lg p-2">
+                        <option>₹0</option>
                         <option>₹10</option>
                         <option>₹50</option>
                         <option>₹100</option>
@@ -101,7 +102,7 @@
             <!-- Amount to Pay Section -->
             <div class="flex items-center justify-between bg-white rounded-lg shadow-md p-4">
                 <p class="font-semibold">Amount to Pay</p>
-                <p class="font-semibold">₹2,278</p>
+                <p class="font-semibold">₹{{ calculateTotal(ad.price) }}</p>
                 <button class="text-blue-600 font-semibold hover:underline">View Breakup</button>
             </div>
         </div>

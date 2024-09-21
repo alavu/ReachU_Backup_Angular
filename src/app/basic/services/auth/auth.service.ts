@@ -57,9 +57,13 @@ export class AuthService {
 
     isUserlogin(loginRequest: any): Observable<any> {
 
-        console.log("Login req:",loginRequest);
+        console.log("Login req:", loginRequest);
         return this.http.post(`${BASIC_URL}authenticate`, loginRequest).pipe(
             tap((response: any) => {
+                if (response.blocked) {
+                    // If the partner is blocked, show an appropriate message and do not proceed
+                    throw new Error('User is blocked');
+                }
                 if (response.token) {
                     UserStorageService.saveToken(response.token);
                     UserStorageService.saveUser(response.user);
@@ -67,13 +71,13 @@ export class AuthService {
             }),
             catchError((error) => {
                 console.log(error)
-                return throwError(()=>new Error(error));
+                return throwError(() => new Error(error));
             })
         );
     }
-    
+
     adminLogin(loginRequest: any): Observable<any> {
-        console.log("Login req:",loginRequest);
+        console.log("Login req:", loginRequest);
         return this.http.post(`${BASIC_URL}authenticate`, loginRequest).pipe(
             tap((response: any) => {
                 if (response.token) {
@@ -83,16 +87,32 @@ export class AuthService {
             }),
             catchError((error) => {
                 console.log(error)
-                return throwError(()=>new Error(error));
+                return throwError(() => new Error(error));
             })
         );
     }
 
     isPartnerlogin(loginRequest: any): Observable<any> {
 
-        console.log("Login req:",loginRequest);
+        console.log("Login req:", loginRequest);
         return this.http.post(`${BASIC_URL}authenticate`, loginRequest).pipe(
             tap((response: any) => {
+                console.log("Log in response", response)
+                if (response.blocked) {
+                    // If the partner is blocked, show an appropriate message and do not proceed
+                    throw new Error('Partner is blocked');
+                }
+
+                // Check if the partner is verified before allowing login
+                if (!response.verified) {
+                    throw new Error('Partner is not verified');
+                }
+
+                // If the partner is rejected, show an appropriate message
+                if (response.rejected) {
+                    throw new Error('Partner is rejected by admin');
+                }
+
                 if (response.token) {
                     UserStorageService.saveToken(response.token);
                     UserStorageService.saveUser(response.partner);
@@ -100,13 +120,10 @@ export class AuthService {
             }),
             catchError((error) => {
                 console.log(error)
-                return throwError(()=>new Error(error));
+                return throwError(() => new Error(error.message));
             })
         );
     }
-
-
-
 
     verifyAccount(token: string): Observable<any> {
         localStorage.removeItem('userEmail');
@@ -146,7 +163,7 @@ export class AuthService {
     refreshToken(): Observable<any> {
         const refreshToken = UserStorageService.getRefreshToken(); // Use the correct method to get the refresh token
         const body: RefreshResponse = { refreshToken: refreshToken };
-    
+
         return this.http.post<AuthResponse>(`${BASIC_URL}/refresh`, body).pipe(
             tap((response: AuthResponse) => {
                 console.log("Access token", response.accessToken);
@@ -157,12 +174,11 @@ export class AuthService {
         );
     }
 }
-    export interface AuthResponse {
-        accessToken: string;
-        refreshToken: string;
-    }
-    
-    export interface RefreshResponse {
-        refreshToken: string;
-    }
-    
+export interface AuthResponse {
+    accessToken: string;
+    refreshToken: string;
+}
+
+export interface RefreshResponse {
+    refreshToken: string;
+}

@@ -45,15 +45,22 @@ export class PartnerProfileComponent {
    getPartnerProfile(): void {
     this.partnerService.getPartnerById(this.partnerId).subscribe(
       (data: any) => {
-        console.log("Partner data:", data)
+        console.log("Partner data:", data);
         this.partner = data;
+  
+        // Convert the image byte array or base64 string into a format usable by the img tag
+        if (this.partner.img) {
+          this.partner.imageUrl = 'data:image/jpeg;base64,' + this.partner.img; // Assuming it's a JPEG image
+        } else {
+          this.partner.imageUrl = '/assets/profile.jpg'; // Fallback if no image is uploaded
+        }
       },
       (error: any) => {
         console.error('Failed to fetch partner data:', error);
       }
     );
-    
   }
+  
 
  // Open the edit profile modal
  editProfile(): void {
@@ -65,6 +72,13 @@ export class PartnerProfileComponent {
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
       this.partner = result; // Update partner details if saved
+      if (result.img) {
+        this.partner.imageUrl = 'data:image/jpeg;base64,' + result.img;
+      } else if(result.imageUrl)
+      {
+        this.partner.imageUrl = result.imageUrl;
+      }
+      
       console.log('Profile updated:', result);
     }
   });

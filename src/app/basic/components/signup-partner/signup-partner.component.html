@@ -4,9 +4,9 @@
         <div class="child">
             <div nz-col>
                 <h1 style="margin-left: 55px">Partner Signup</h1>
-              </div>
+            </div>
 
-              <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
 
                 <nz-form-item>
                     <nz-form-control nzHasFeedback nzErrorTip="The input is not valid E-mail!">
@@ -21,7 +21,8 @@
 
                 <nz-form-item>
                     <nz-form-control nzHasFeedback nzErrorTip="The input is not valid password!">
-                        <input nz-input type="password" placeholder="Confirm Password" formControlName="checkPassword" id="email" />
+                        <input nz-input type="password" placeholder="Confirm Password" formControlName="checkPassword"
+                            id="email" />
                     </nz-form-control>
                 </nz-form-item>
 
@@ -47,17 +48,18 @@
                 <nz-form-item>
                     <nz-form-control nzHasFeedback nzErrorTip="The input is not valid lastname!">
                         <nz-select formControlName="service" placeholder="Select a Service">
-                            <nz-option *ngFor="let service of categories" [nzValue]="service.id" [nzLabel]="service.name"></nz-option>
+                            <nz-option *ngFor="let service of categories" [nzValue]="service.id"
+                                [nzLabel]="service.name"></nz-option>
                         </nz-select>
                     </nz-form-control>
                 </nz-form-item>
 
                 <button nz-button class="login-form-button login-form-margin" [nzType]="'primary'">
                     Register
-                  </button>
-                  Or <a routerLink="/login"> login now! </a>
+                </button>
+                Or <a routerLink="/login"> login now! </a>
 
-              </form>
+            </form>
 
         </div>
     </div>

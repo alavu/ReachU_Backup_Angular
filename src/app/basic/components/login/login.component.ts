@@ -138,7 +138,7 @@ export class LoginComponent implements OnInit {
             },
             error: (err) => {
                 console.error('Login Error:', err);
-                if (err.error.error === "User is blocked") {
+                if (err.message === "User is blocked") {
                     this.snackBar.open("Your account is blocked. Please contact support.", "Close", {
                         duration: 5000,
                         panelClass: "error-snackbar"

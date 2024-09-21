@@ -4,6 +4,7 @@ import { ClientService } from '../../services/client.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { PartnerDTO } from 'src/app/model/PartnerDTO';
 
 @Component({
   selector: 'app-ad-detail',
@@ -15,8 +16,10 @@ export class AdDetailComponent {
   adId= this.activatedroute.snapshot.params['adId'];
   avatarUrl:any;
   ad:any;
-
   reviews:any;
+  partners: PartnerDTO[] = [];
+  serviceName: string = '';
+  serviceId!: number;
 
   validateForm!: FormGroup;
 
@@ -38,9 +41,11 @@ export class AdDetailComponent {
       this.validateForm = this.fb.group({
         bookDate: [null, [Validators.required]],
         timeSlot: [null, [Validators.required]],
-        duration: [null, [Validators.required]]
+        duration: [null, [Validators.required]],
+        selectedPartner: [null, [Validators.required]]
       })
       this.getAdDetailsByAdId();
+      // this.getPartnersByService();
     }
 
     disabledDate = (current: Date): boolean => {
@@ -53,8 +58,19 @@ export class AdDetailComponent {
         this.avatarUrl = 'data:image/jpeg;base64,' + res.adDTO.returnedImg;
         this.ad = res.adDTO;
         this.reviews = res.reviewDTOList;
+        this.getPartnersByService(this.ad.serviceName);
+        UserStorageService.setAdData(this.ad);
       })
     }
+
+    getPartnersByService(serviceName: string) {
+      console.log("Service name", serviceName)
+      this.clientService.getPartnersByService(serviceName).subscribe(res => {
+        console.log("Partners by service", res);
+        this.partners = res;
+      });
+    }  
+  
 
     bookService(){
       const bookServiceDTO = {
@@ -75,7 +91,7 @@ export class AdDetailComponent {
           { nzDuration: 5000 }
         );
         // this.router.navigateByUrl('/client/bookings');
-        this.router.navigateByUrl('/client/checkout');
+        this.router.navigateByUrl('/client/checkout', { state: { adId: this.adId } });
       })
     }
 

@@ -10,6 +10,8 @@ import {PartnerLoginComponent} from "./basic/components/partner-login/partner-lo
 import {SignupPartnerComponent} from "./basic/components/signup-partner/signup-partner.component";
 import { AdminDashboardComponent } from './admin/pages/admin-dashboard/admin-dashboard.component';
 import { AuthGuard } from './auth_guard/auth.guard';
+import { CancelComponent } from './stripe/cancel/cancel.component';
+import { SucessComponent } from './stripe/sucess/sucess.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -21,6 +23,8 @@ const routes: Routes = [
     {path: 'register', component: SignupClientComponent},
     {path: 'activate-account', component: ActivateAccountComponent},
     {path: 'partner-login', component: PartnerLoginComponent},
+    { path: 'cancel', component: CancelComponent },
+    { path: 'success', component: SucessComponent },
     {path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule)},
     {path: 'client', loadChildren: () => import('./client/client.module').then(m => m.ClientModule)},
     {path: 'partner', loadChildren: () => import('./partners/partners.module').then(m => m.PartnersModule)}];

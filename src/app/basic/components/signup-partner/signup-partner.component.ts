@@ -20,85 +20,60 @@ export class SignupPartnerComponent {
     private authService: AuthService,
     private category: CategoryService,
     private notification: NzNotificationService,
-    private router: Router){}
+    private router: Router) { }
 
-    ngOnInit(){
-      this.validateForm = this.fb.group({
-        email: [null, [Validators.email, Validators.required]],
-        name : [null, [Validators.required]],
-        lastname: [null],
-        address : [null, [Validators.required]],
-        phone : [null],
-        password : [null, [Validators.required]],
-        checkPassword : [null, [Validators.required]],
-        service: [null, [Validators.required]]
-      })
-      this.loadCategories();
-    }
+  ngOnInit() {
+    this.validateForm = this.fb.group({
+      email: [null, [Validators.email, Validators.required]],
+      name: [null, [Validators.required]],
+      lastname: [null],
+      address: [null, [Validators.required]],
+      phone: [null],
+      password: [null, [Validators.required]],
+      checkPassword: [null, [Validators.required]],
+      service: [null, [Validators.required]]
+    })
+    this.loadCategories();
+  }
 
-    // Fetch services
-    loadCategories(): void {
-      this.category.categories().subscribe(
-        (data: any) => {
-          this.categories = data;
-          console.log(this.categories);
-        },
-        (error: any) => {
-          console.error('Failed to fetch service:', error);
-          this.notification.error('ERROR', 'Failed to load service', { nzDuration: 5000 });
-        }
-      );
-    }
+  // Fetch services
+  loadCategories(): void {
+    this.category.categories().subscribe(
+      (data: any) => {
+        this.categories = data;
+        console.log(this.categories);
+      },
+      (error: any) => {
+        console.error('Failed to fetch service:', error);
+        this.notification.error('ERROR', 'Failed to load service', { nzDuration: 5000 });
+      }
+    );
+  }
 
-    submitForm(){
-      if (this.validateForm.valid) {
-        // Get the selected service ID
-        const selectedServiceId = this.validateForm.get('service')?.value;
-  
-        // Find the corresponding service name
-        const selectedService = this.categories.find(service => service.id === selectedServiceId);
-        const serviceName = selectedService ? selectedService.name : null;
-  
-        // Prepare the payload with the service name instead of the ID
-        const payload = {
-          ...this.validateForm.value,
-          service: serviceName // Replace ID with service name
-        };
+  submitForm() {
+    if (this.validateForm.valid) {
+      // Get the selected service ID
+      const selectedServiceId = this.validateForm.get('service')?.value;
 
-      this.authService.registerPartner(payload) .subscribe({
+      // Find the corresponding service name
+      const selectedService = this.categories.find(service => service.id === selectedServiceId);
+      const serviceName = selectedService ? selectedService.name : null;
+
+      // Prepare the payload with the service name instead of the ID
+      const payload = {
+        ...this.validateForm.value,
+        service: serviceName // Replace ID with service name
+      };
+
+      this.authService.registerPartner(payload).subscribe({
         next: () => {
           this.router.navigate(['activate-account']);
         },
         error: (err) => {
-          console.log('Error:', err); 
+          console.log('Error:', err);
           this.errorMsg = err.error.validationErrors;
         }
       });
-      }
-
-
-
-
-
-
-
-
-
-        /*this.notification
-        .success(
-          'SUCCESS',
-          `Signup successful`,
-          { nzDuration: 5000 }
-        );
-        this.router.navigateByUrl('/login');
-      }, error =>{
-        this.notification
-        .error(
-          'ERROR',
-          `${error.error}`,
-          { nzDuration: 5000 }
-        )
-      });*/
-
     }
   }
+}

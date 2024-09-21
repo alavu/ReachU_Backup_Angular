@@ -5,7 +5,6 @@ import {ClientDashboardComponent} from './pages/client-dashboard/client-dashboar
 import {AdDetailComponent} from './pages/ad-detail/ad-detail.component';
 import {MyBookingsComponent} from './pages/my-bookings/my-bookings.component';
 import {ReviewComponent} from './pages/review/review.component';
-import { CategoryDetailComponent } from './pages/category-detail/category-detail.component';
 import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.component';
 
 const routes: Routes = [

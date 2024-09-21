@@ -58,7 +58,7 @@ export class PartnerLoginComponent implements OnInit {
 
                     // Navigate to partner dashboard if login is successful
                     if (UserStorageService.isPartnerLoggedIn()) {
-                        this.router.navigateByUrl('/partner/profile');
+                        this.router.navigateByUrl('/partner/dashboard');
                     }
 
                     this.snackBar.open("Login successful", "Close", { duration: 3000 });
@@ -70,13 +70,24 @@ export class PartnerLoginComponent implements OnInit {
             },
             error: (err) => {
                 console.error('Login Error:', err);
-                // Show different messages depending on the error
-                if (err.error.error === "User is blocked") {
+                // Handle different error messages
+                if (err.message === "Partner is blocked") {
                     this.snackBar.open("Your account is blocked. Please contact support.", "Close", {
                         duration: 5000,
                         panelClass: "error-snackbar"
                     });
-                } else {
+                } else if (err.message === "Partner is not verified") {
+                    this.snackBar.open("Your account is pending verification. Please wait for admin approval.", "Close", {
+                        duration: 5000,
+                        panelClass: "error-snackbar"
+                    });
+                } else if (err.message === "Partner is rejected by admin") {
+                    this.snackBar.open("Your account has been rejected by the admin.", "Close", {
+                        duration: 5000,
+                        panelClass: "error-snackbar"
+                    });
+                }
+                else {
                     this.snackBar.open("An error occurred. Please try again.", "Close", {
                         duration: 5000,
                         panelClass: "error-snackbar"

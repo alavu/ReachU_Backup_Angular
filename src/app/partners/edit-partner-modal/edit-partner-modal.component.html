@@ -3,6 +3,26 @@
   <!-- Modal Content -->
   <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
     <h2 class="text-xl font-semibold mb-4">Edit Partner Profile</h2>
+
+     <!-- Image Upload Section -->
+     <div class="flex justify-center mb-5">
+      <img 
+        class="w-20 h-20 p-1 rounded-full ring-2 ring-gray-300 cursor-pointer" 
+        src="{{ imageUrl || '/assets/profile.jpg' }}" 
+        alt="Profile avatar" 
+        (click)="onImageClick()"
+      >
+    </div>
+
+    <input 
+      type="file" 
+      accept="image/*" 
+      #fileInput 
+      (change)="onFileSelected($event)" 
+      style="display: none;" 
+    />
+
+    
     <div>
       <form [formGroup]="editForm" class="space-y-4">
         <div class="flex flex-col">

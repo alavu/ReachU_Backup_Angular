@@ -16,9 +16,7 @@ import {GoogleLoginProvider, GoogleSigninButtonModule, SocialAuthServiceConfig} 
 import {environment} from "./basic/services/storage/environment";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {NzButtonModule} from "ng-zorro-antd/button";
-import { AdminLoginComponent } from './basic/components/admin-login/admin-login.component';
 import { HomeComponent } from './home/home/home.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import { ServiceCategoriesComponent } from './home/service-categories/service-categories.component';
 import { ServiceRatingComponent } from './home/service-rating/service-rating.component';
 import { PromotionalBannersComponent } from './home/promotional-banners/promotional-banners.component';
@@ -35,6 +33,8 @@ import { ServiceItemsComponent } from './home/service-items/service-items.compon
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { CategoryDetailComponent } from './client/pages/category-detail/category-detail.component';
 import { AdminInterceptor } from './admin/services/admin-interceptor.service';
+import { CancelComponent } from './stripe/cancel/cancel.component';
+import { SucessComponent } from './stripe/sucess/sucess.component';
 registerLocaleData(en);
 
 @NgModule({
@@ -54,6 +54,8 @@ registerLocaleData(en);
         CheckoutComponent,
         ServiceItemsComponent,
         CategoryDetailComponent,
+        CancelComponent,
+        SucessComponent,
 
 
     ],

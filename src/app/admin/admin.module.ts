@@ -38,9 +38,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminInterceptor } from './services/admin-interceptor.service';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angular/platform-browser';
-
-// import {SubcategoryComponent} from "./pages/category/subcategory-component/subcategory-component.component";
-// import {PostCategoryComponent} from "./pages/category/post-category/post-category.component";
+import { PartnerManagementComponent } from './pages/partner-management/partner-management.component';
 
 @NgModule({
     declarations: [
@@ -57,6 +55,7 @@ import { HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angul
         EditCategoryDialogComponent,
         AllAdsComponent,
         UpdateAdComponent,
+        PartnerManagementComponent,
 
     ],
     imports: [

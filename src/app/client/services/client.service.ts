@@ -33,6 +33,13 @@ export class ClientService {
         })
     }
 
+    getPartnersByService(service: string): Observable<any> {
+        return this.http.get(BASIC_URL + `api/partners/byService/${service}`, {
+            headers: this.createAuthorizationHeader()
+        })
+    }
+
+
     bookService(bookDTO: any): Observable<any> {
 
         return this.http.post(BASIC_URL + `api/client/book-service`, bookDTO, {

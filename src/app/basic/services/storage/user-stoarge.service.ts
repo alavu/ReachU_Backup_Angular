@@ -86,6 +86,7 @@ const PARTNER_ID = 's_partner_id';
 })
 export class UserStorageService {
   static router: any;
+  private static adData: any;
 
   constructor() { }
 
@@ -160,6 +161,14 @@ export class UserStorageService {
     const role = this.getUserRole();
     console.log("PARTNER ROLE:", role)
     return token !== '' && role === 'PARTNER';
+  }
+
+  static setAdData(ad: any): void {
+    this.adData = ad;
+  }
+
+  static getAdData(): any {
+    return this.adData;
   }
 
   // public static isGoogleLogin(): boolean {
