@@ -53,15 +53,15 @@ export class AdminService {
     }
 
     getAllAdBookings(): Observable<any>{
-        const companyId = UserStorageService.getUserId();
-        return this.http.get(BASIC_URL + `api/company/bookings/${companyId}`, {
+        const adminId = UserStorageService.getUserId();
+        return this.http.get(BASIC_URL + `api/admin/bookings/${adminId}`, {
             headers : this.createAuthorizationHeader()
         })
     }
 
     changeBookingStatus(bookingId: number, status: string): Observable<any>{
 
-        return this.http.get(BASIC_URL + `api/company/booking/${bookingId}/${status}`, {
+        return this.http.get(BASIC_URL + `api/admin/booking/${bookingId}/${status}`, {
             headers : this.createAuthorizationHeader()
         })
     }

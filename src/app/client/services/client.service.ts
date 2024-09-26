@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { PaymentUpdateRequest } from 'src/app/model/PaymentUpdateRequest ';
 
 const BASIC_URL = "http://localhost:8080/";
 
@@ -41,7 +42,6 @@ export class ClientService {
 
 
     bookService(bookDTO: any): Observable<any> {
-
         return this.http.post(BASIC_URL + `api/client/book-service`, bookDTO, {
             headers: this.createAuthorizationHeader()
         })
@@ -53,6 +53,11 @@ export class ClientService {
             headers: this.createAuthorizationHeader()
         })
     }
+
+    updateReservationPayment(reservationId: string, paymentDetails: PaymentUpdateRequest): Observable<any> {
+        console.log("reservation id sending in backend", reservationId)
+        return this.http.put(`${BASIC_URL}api/client/${reservationId}/payment`, paymentDetails);
+      }
 
     giveReview(reviewDTO: any): Observable<any> {
         return this.http.post(BASIC_URL + `api/client/review`, reviewDTO, {

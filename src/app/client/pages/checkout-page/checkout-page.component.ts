@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -57,19 +56,6 @@ export class CheckoutPageComponent implements OnInit {
     });
   }
 
-  // getAdDetailsByAdId() {
-  //   if (this.adId) {
-  //     this.clientService.getAdDetailsByAdId(this.adId).subscribe(res => {
-  //       console.log(res);
-  //       this.ad = res.adDTO;  // Assuming adDTO contains the ad data
-  //     }, error => {
-  //       console.error('Error fetching ad details:', error);
-  //     });
-  //   } else {
-  //     console.error('adId not found');
-  //   }
-  // }
-
   calculateTotal(price: number): number {
     const discount = 50;  // Discount can also be dynamic if needed
     const taxesAndFee = 79; // This can be made dynamic as well
@@ -78,6 +64,7 @@ export class CheckoutPageComponent implements OnInit {
   
 
   async pay(): Promise<void> {
+    const reservationId = UserStorageService.getReservationId();
     // here we create a payment object
     const payment = {
       name: 'Iphone',
@@ -86,7 +73,7 @@ export class CheckoutPageComponent implements OnInit {
       amount: 99900,
       quantity: '1',
       cancelUrl: 'http://localhost:4200/cancel',
-      successUrl: 'http://localhost:4200/success',
+      successUrl: `http://localhost:4200/success?reservationId=${reservationId}`
     };
 
     const stripe = await this.stripePromise;

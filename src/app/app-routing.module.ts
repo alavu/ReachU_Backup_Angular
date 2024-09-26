@@ -12,10 +12,12 @@ import { AdminDashboardComponent } from './admin/pages/admin-dashboard/admin-das
 import { AuthGuard } from './auth_guard/auth.guard';
 import { CancelComponent } from './stripe/cancel/cancel.component';
 import { SucessComponent } from './stripe/sucess/sucess.component';
+import { MyBookingsComponent } from './client/pages/my-bookings/my-bookings.component';
 
 const routes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'home', component: HomeComponent },
+    {path: 'booking', component: MyBookingsComponent },
     {path: 'login', component: LoginComponent},
     {path: 'admin', component: AdminLoginComponent},
     {path: 'register_client', component: SignupClientComponent},

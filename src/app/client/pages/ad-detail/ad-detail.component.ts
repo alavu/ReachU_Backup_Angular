@@ -84,6 +84,10 @@ export class AdDetailComponent {
       }
 
       this.clientService.bookService(bookServiceDTO).subscribe(res =>{
+        const reservationId = res.reservationId;
+        console.log("ftech the reservationId from backend", reservationId)
+        // Save the reservationId to local storage
+        UserStorageService.saveReservationId(reservationId);
         this.notification
         .success(
           'SUCCESS',
@@ -91,7 +95,7 @@ export class AdDetailComponent {
           { nzDuration: 5000 }
         );
         // this.router.navigateByUrl('/client/bookings');
-        this.router.navigateByUrl('/client/checkout', { state: { adId: this.adId } });
+        this.router.navigate(['/client/checkout'],  { queryParams: { reservationId: reservationId } });
       })
     }
 

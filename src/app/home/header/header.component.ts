@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
     isAdminLoggedIn: boolean = false;
     isPartnerLoggedIn: boolean = false;
     isGoogleLogin: boolean = false;
+    isDropdownOpen = false;
 
     showHeader: boolean = true; // Cntrol header visibility
 
@@ -25,6 +26,10 @@ export class HeaderComponent implements OnInit {
         private googleAuthService: GoogleAuthService,
         private cdr: ChangeDetectorRef,
         private notification: NzNotificationService) { }
+
+        toggleDropdown() {
+            this.isDropdownOpen = !this.isDropdownOpen;
+          }
 
     ngOnInit(): void {
         const currentRoute = this.router.url;
@@ -87,6 +92,12 @@ export class HeaderComponent implements OnInit {
        });
        this.cdr.detectChanges();
    }
+
+   navigateToMyBookings() {
+    this.router.navigate(['/booking']);
+    this.isDropdownOpen = false;
+  }
+
 
     logout() {
         console.log('Logout function called');

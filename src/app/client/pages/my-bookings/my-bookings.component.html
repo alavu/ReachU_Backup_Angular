@@ -4,6 +4,8 @@
             <th style="font-weight: bolder; color: #003973;">Service</th> 
             <th style="font-weight: bolder; color: #003973;">Date</th>
             <th style="font-weight: bolder; color: #003973;">Status</th>
+            <th style="font-weight: bolder; color: #003973;">Payment Mode</th>
+            <th style="font-weight: bolder; color: #003973;">Payment Status</th>
             <th style="font-weight: bolder; color: #003973;">Action</th>
         </tr>
     </thead>
@@ -12,6 +14,8 @@
             <td style="font-weight:600 ;">{{booking.serviceName}}</td>
             <td>{{booking.bookDate | date: 'dd/MM/yyyy'}}</td>
             <td style="font-weight:600 ;">{{booking.reservationStatus}}</td>
+            <td style="font-weight:600 ;">{{booking.paymentMode}}</td>
+            <td style="font-weight:600 ;">{{booking.paymentStatus}}</td>
             <span *ngIf="booking.reviewStatus == 'FALSE'">
                 <td>
                     <button style="margin-left: 10px; margin-top: 15px;" nzSize="small" nz-button nzType="primary" nzDanger

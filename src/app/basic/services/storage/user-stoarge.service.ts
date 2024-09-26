@@ -80,6 +80,7 @@ const USER_ID = 's_user_id';
 const REFRESH_TOKEN = 'refreshToken';
 const PARTNER = 's_partner';
 const PARTNER_ID = 's_partner_id';
+const RESERVATION_ID = 's_reservation_id';
 
 @Injectable({
   providedIn: 'root'
@@ -209,6 +210,15 @@ export class UserStorageService {
   static clearGoogleLoginState(): void {
     localStorage.removeItem("GOOGLE_LOGIN");
   }
+
+  public static saveReservationId(reservationId: string): void {
+    window.localStorage.removeItem(RESERVATION_ID);
+    window.localStorage.setItem(RESERVATION_ID, reservationId);
+}
+
+public static getReservationId(): string {
+    return localStorage.getItem(RESERVATION_ID) || '';
+}
 
 }
 // if not working uncommet this
