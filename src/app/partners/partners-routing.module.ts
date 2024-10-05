@@ -5,6 +5,7 @@ import { PartnerProfileComponent } from './partner-profile/partner-profile.compo
 // import { LayoutComponent } from './layout/layout.component';
 import { PartnerComponent } from './partner.component';
 import { AuthenticationGuard } from '../auth_guard/authentication.guard';
+import { ChatClientComponent } from './chat-client/chat-client.component';
 
 const routes: Routes = [
   {
@@ -14,6 +15,7 @@ const routes: Routes = [
     children: [
   {path: 'dashboard', component: PartnerDashboardComponent},
   {path: 'profile', component: PartnerProfileComponent},
+  {path: 'chat', component: ChatClientComponent},
 
 ]
 }

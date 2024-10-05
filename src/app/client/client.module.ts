@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ClientRoutingModule} from './client-routing.module';
-import {ClientComponent} from './client.component';
 import {ClientDashboardComponent} from './pages/client-dashboard/client-dashboard.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DemoNgZorroAntdModule} from '../DemoNgZorroAntdModule';
@@ -16,10 +15,10 @@ import { CheckoutPageComponent } from './pages/checkout-page/checkout-page.compo
 import { AddAddressModalComponent } from './pages/add-address-modal/add-address-modal.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
+import { ChatComponent } from './pages/chat/chat.component';
 
 @NgModule({
     declarations: [
-        ClientComponent,
         ClientDashboardComponent,
         AdDetailComponent,
         MyBookingsComponent,
@@ -27,7 +26,8 @@ import { MatIconModule } from '@angular/material/icon';
         ActivateAccountComponent,
         CountdownTimerComponent,
         CheckoutPageComponent,
-        AddAddressModalComponent
+        AddAddressModalComponent,
+        ChatComponent
     ],
     imports: [
         CommonModule,

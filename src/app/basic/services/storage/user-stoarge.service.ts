@@ -130,7 +130,7 @@ export class UserStorageService {
 
   }
 
- public static getUserId(): string {
+ public static getUserId(): any {
     const user = this.getUser();
     console.log("User is----------", user);
     return user ? user.userId : '';

@@ -1,0 +1,85 @@
+<!-- <div class="chat_window">
+    <div class="top_menu">
+      <div class="buttons">
+        <div class="button close"></div>
+        <div class="button minimize"></div>
+        <div class="button maximize"></div>
+      </div>
+      <div class="title">
+        <img src="../../../assets/whatsapp-icon.png" width="25px" height="25px">
+        WhatsApp
+      </div>
+    </div>
+    <ul class="messages">
+      <li class="message right" *ngFor="let item of messageList"
+      [ngClass]="{'left': item.message_side === 'receiver', 'right': item.message_side === 'sender'}"
+      >
+        <div class="avatar"></div>
+        <div class="text_wrapper">
+          <div class="text">{{item.message}}</div>
+        </div>
+      </li>
+    </ul>
+    <div class="bottom_wrapper clearfix">
+      <div class="message_input_wrapper">
+        <input class="message_input" placeholder="Message..." [(ngModel)]="messageInput" 
+        (keyup.enter)="sendMessage()"/>
+      </div>
+      <div class="send_message" (click)="sendMessage()">
+        <div class="icon"></div>
+        <div class="text">Send</div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="connected-partners p-6 bg-white rounded-lg shadow-md mb-6">
+    <h3 class="text-lg font-semibold mb-4">Connected Partners</h3>
+    <ul>
+      <li *ngFor="let partner of connectedPartners" class="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
+        <span>{{ partner.name }} - {{ partner.service }}</span>
+        <button (click)="createRoom(partner.id)" 
+                class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition duration-300">
+          Chat
+        </button>
+      </li>
+    </ul>
+  </div>
+  
+  <div class="chat_window bg-white w-full max-w-md mx-auto rounded-lg shadow-lg overflow-hidden">
+    <div class="top_menu bg-green-500 text-white p-3 flex justify-between items-center">
+      <div class="buttons flex space-x-2">
+        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+        <div class="w-3 h-3 rounded-full bg-green-400"></div>
+      </div>
+      <div class="title flex items-center">
+        <img src="../../../assets/whatsapp-icon.png" alt="WhatsApp" class="w-6 h-6 mr-2">
+        <span class="font-semibold">WhatsApp</span>
+      </div>
+    </div>
+  
+    <ul class="messages p-4 space-y-4 h-80 overflow-y-auto bg-gray-50">
+      <!-- Display each message using *ngFor -->
+      <li class="message flex items-start space-x-3" 
+          *ngFor="let item of messageList" 
+          [ngClass]="{'justify-end': item.message_side === 'sender', 'justify-start': item.message_side === 'receiver'}">
+        <div class="avatar w-10 h-10 bg-gray-300 rounded-full"></div>
+        <div class="text_wrapper max-w-xs bg-gray-200 rounded-lg p-3" 
+             [ngClass]="{'bg-green-500 text-white': item.message_side === 'sender', 'bg-gray-200 text-gray-800': item.message_side === 'receiver'}">
+          <div class="text">{{ item.message }}</div>
+        </div>
+      </li>
+    </ul>
+  
+    <div class="bottom_wrapper p-4 border-t border-gray-200 flex items-center">
+      <div class="message_input_wrapper flex-grow">
+        <input class="message_input w-full border border-gray-300 rounded-lg p-2 focus:outline-none focus:border-blue-400"
+               placeholder="Message..." [(ngModel)]="messageInput" (keyup.enter)="sendMessage()" />
+      </div>
+      <div class="send_message bg-blue-500 text-white rounded-lg px-4 py-2 ml-2 cursor-pointer hover:bg-blue-600 transition duration-300"
+           (click)="sendMessage()">
+        Send
+      </div>
+    </div>
+  </div>
+  

@@ -17,11 +17,16 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
+                        "allowedCommonJsDependencies": [
+                            "sockjs-client",
+                            "stompjs",
+                            "sdp"
+                        ],
                         "outputPath": "dist/reachu-angular",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": [
-                            "zone.js"
+                            "zone.js","src/polyfills.ts"
                         ],
                         "tsConfig": "tsconfig.app.json",
                         "inlineStyleLanguage": "scss",

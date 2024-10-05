@@ -98,6 +98,11 @@ export class HeaderComponent implements OnInit {
     this.isDropdownOpen = false;
   }
 
+  navigateToMyChat() {
+    this.router.navigate(['/chat']);
+    this.isDropdownOpen = false;
+  }
+
 
     logout() {
         console.log('Logout function called');

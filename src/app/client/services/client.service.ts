@@ -78,5 +78,9 @@ export class ClientService {
         return this.http.get(this.googleUserInfoUrl, {headers});
     }
 
+    
+    getConnectedPartners(): Observable<any> {
+        return this.http.get<any>(`${BASIC_URL}api/client/partner`);
+      }
 
 }

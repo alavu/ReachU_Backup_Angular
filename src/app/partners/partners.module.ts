@@ -13,6 +13,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PartnerComponent } from './partner.component';
+import { ChatClientComponent } from './chat-client/chat-client.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { PartnerComponent } from './partner.component';
         PartnerProfileComponent,
         PartnerNavbarComponent,
         // LayoutComponent,
-        EditPartnerModalComponent
+        EditPartnerModalComponent,
+        ChatClientComponent
   ],
   imports: [
     CommonModule,
