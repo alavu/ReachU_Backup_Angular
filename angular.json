@@ -20,7 +20,8 @@
                         "allowedCommonJsDependencies": [
                             "sockjs-client",
                             "stompjs",
-                            "sdp"
+                            "sdp",
+                            "@zegocloud/zego-uikit-prebuilt"
                         ],
                         "outputPath": "dist/reachu-angular",
                         "index": "src/index.html",

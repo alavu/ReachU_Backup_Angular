@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import {environment} from "../../basic/services/storage/environment";
+import {environment} from "../../environment";
 
 const BASE_URL = environment.apiBaseUrl;
 
@@ -26,7 +26,7 @@ export class UserManagementService {
     // }
 
     getAllUsers(): Observable<any> {
-        return this.http.get<any>(`${BASE_URL}/api/users/list`, {
+        return this.http.get<any>(`${BASE_URL}/api/admin/list`, {
             // headers: this.createAuthorizationHeader()
         });
     }

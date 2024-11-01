@@ -57,13 +57,22 @@
               <div nz-col nzSpan="24">
                 <nz-form-item>
                   <nz-form-label [nzSpan]="24" nzFor="partnerSelect">Select Partner</nz-form-label>
-                  <nz-form-control [nzSpan]="24">
-                    <nz-select formControlName="selectedPartner" name="selectedPartner" id="selectedPartner"
-                      placeholder="Select a partner">
-                      <nz-option *ngFor="let partner of partners" [nzValue]="partner.id"
-                        [nzLabel]="partner.name"></nz-option>
-                    </nz-select>
-                  </nz-form-control>
+<!--                  <nz-form-control [nzSpan]="24">-->
+<!--                    <nz-select formControlName="selectedPartner" name="selectedPartner" id="selectedPartner"-->
+<!--                      placeholder="Select a partner">-->
+<!--                      <nz-option *ngFor="let partner of partners" [nzValue]="partner.id"-->
+<!--                                 (click)="selectPartnerId(partner.id)"-->
+<!--                        [nzLabel]="partner.name"></nz-option>-->
+<!--                    </nz-select>-->
+<!--                  </nz-form-control>-->
+
+                    <nz-form-control [nzSpan]="24">
+                        <nz-select formControlName="selectedPartner" placeholder="Select a partner" (ngModelChange)="selectPartnerId($event)">
+                            <nz-option *ngFor="let partner of partners" [nzValue]="partner.id" [nzLabel]="partner.name"></nz-option>
+                        </nz-select>
+                    </nz-form-control>
+
+
                 </nz-form-item>
               </div>
             </div>

@@ -1,91 +1,58 @@
-<div class="bg-gray-200 p-6">
-    <h1 class="text-3xl font-bold mb-6">Partner Dashboard</h1>
-  
-    <div class="grid gap-4 lg:gap-8 md:grid-cols-3 p-4">
-      <div class="p-6 rounded-2xl bg-white shadow">
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-gray-500">
-            <span>Total Revenue</span>
-          </div>
-          <div class="text-3xl">
-            &#8377;{{ total_revenue }}
-          </div>
+<div class="flex flex-col h-screen overflow-auto">
+    <!-- Dashboard Title -->
+    <header class="px-8 pt-8">
+        <h1 class="text-4xl font-bold text-gray-800">Partner Dashboard</h1>
+    </header>
+
+    <!-- Statistics Overview -->
+    <section class="grid gap-6 lg:gap-8 md:grid-cols-2 lg:grid-cols-3 px-8 py-6">
+        <!-- Total Revenue Card -->
+        <div class="p-6 rounded-lg bg-white shadow-md">
+            <div class="space-y-1">
+                <p class="text-sm font-medium text-gray-500">Total Revenue</p>
+                <p class="text-3xl font-semibold text-gray-800">
+                    &#8377;{{ total_revenue }}
+                </p>
+            </div>
         </div>
-      </div>
-  
-      <div class="p-6 rounded-2xl bg-white shadow">
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-gray-500">
-            <span>Total Users</span>
-          </div>
-          <div class="text-3xl">
-            {{ total_users }}
-          </div>
+
+        <!-- Total Bookings Card -->
+        <div class="p-6 rounded-lg bg-white shadow-md">
+            <div class="space-y-1">
+                <p class="text-sm font-medium text-gray-500">Total Bookings</p>
+                <p class="text-3xl font-semibold text-gray-800">
+                    {{ total_bookings }}
+                </p>
+            </div>
         </div>
-      </div>
-  
-      <div class="p-6 rounded-2xl bg-white shadow">
-        <div class="space-y-2">
-          <div class="text-sm font-medium text-gray-500">
-            <span>Total Bookings</span>
-          </div>
-          <div class="text-3xl">
-            {{ total_bookings }}
-          </div>
+    </section>
+
+    <!-- Service-Specific Statistics Section -->
+    <section class="px-8">
+        <h2 class="text-2xl font-bold text-gray-800 mt-8">Service Statistics</h2>
+        <div class="grid gap-6 mt-4 sm:grid-cols-2 md:grid-cols-4">
+            <!-- Current Bookings Card -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-sm font-medium text-gray-500">Current Bookings</p>
+                <p class="text-3xl font-semibold text-indigo-600">
+                    {{ current_bookings }}
+                </p>
+            </div>
+
+            <!-- Total Cancellations Card -->
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <p class="text-sm font-medium text-gray-500">Total Cancellations</p>
+                <p class="text-3xl font-semibold text-red-600">
+                    {{ total_cancellations }}
+                </p>
+            </div>
         </div>
-      </div>
-    </div>
-  
-    <!-- Service-specific Statistics -->
-    <h2 class="text-2xl font-bold mt-6">Service Statistics</h2>
-    <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-4 mt-4">
-      <div class="bg-white p-4 shadow rounded-lg">
-        <div class="text-sm font-medium text-gray-500">
-          Current Bookings
+    </section>
+
+    <!-- Revenue Graph Section -->
+    <section class="bg-gray-100 p-8 mt-10 rounded-lg mx-8 shadow-md">
+        <div>
+            <partner-sales-revenue />
         </div>
-        <div class="text-3xl font-semibold text-indigo-600">
-          {{ current_bookings }}
-        </div>
-      </div>
-  
-      <div class="bg-white p-4 shadow rounded-lg">
-        <div class="text-sm font-medium text-gray-500">
-          Total Consultations
-        </div>
-        <div class="text-3xl font-semibold text-indigo-600">
-          {{ total_consultations }}
-        </div>
-      </div>
-  
-      <div class="bg-white p-4 shadow rounded-lg">
-        <div class="text-sm font-medium text-gray-500">
-          Total Cancellations
-        </div>
-        <div class="text-3xl font-semibold text-red-600">
-          {{ total_cancellations }}
-        </div>
-      </div>
-  
-      <div class="bg-white p-4 shadow rounded-lg">
-        <div class="text-sm font-medium text-gray-500">
-          Non-Consultations
-        </div>
-        <div class="text-3xl font-semibold text-gray-600">
-          {{ non_consultations }}
-        </div>
-      </div>
-    </div>
-  
-    <!-- Graph for weekly/monthly statistics -->
-    <div class="mt-6 bg-gray-200 p-4 rounded-lg">
-      <div class="flex items-center mb-4">
-        <input id="weekly-report" type="radio" [(ngModel)]="graph_data_based_on" value="weekly" (change)="updateGraphDetails()" class="mr-2">
-        <label for="weekly-report" class="mr-8 text-sm font-medium">Weekly Report</label>
-  
-        <input id="monthly-report" type="radio" [(ngModel)]="graph_data_based_on" value="monthly" (change)="updateGraphDetails()" class="mr-2">
-        <label for="monthly-report" class="text-sm font-medium">Monthly Report</label>
-      </div>
-  
-      <!-- <p-chart type="line" [data]="data" [options]="options"></p-chart> -->
-    </div>
-  </div>
+    </section>
+</div>

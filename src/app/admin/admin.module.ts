@@ -3,20 +3,13 @@ import {CommonModule} from '@angular/common';
 
 import {AdminRoutingModule} from './admin-routing.module';
 import {AdminComponent} from './admin.component';
-// import { CompanyDashboardComponent } from './pages/company-dashboard/company-dashboard.component';
-// import { CreateAdComponent } from './pages/create-ad/create-ad.component';
-// import { DemoNgZorroAntdModule } from '../DemoNgZorroAntdModule';
-// import { ReactiveFormsModule } from '@angular/forms';
-// import { AllAdsComponent } from './pages/all-ads/all-ads.component';
-// import { UpdateAdComponent } from './pages/update-ad/update-ad.component';
-// import { UserManagementComponent } from './pages/user-management/user-management.component';
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {CompanyDashboardComponent} from "../company/pages/company-dashboard/company-dashboard.component";
 import {DemoNgZorroAntdModule} from "../DemoNgZorroAntdModule";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {AdminLoginComponent} from "../basic/components/admin-login/admin-login.component";
+import {AdminLoginComponent} from "../auth/admin-login/admin-login.component";
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MaterialModule} from "../MaterialModule";
 import { NzTableModule } from 'ng-zorro-antd/table';
@@ -39,6 +32,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AdminInterceptor } from './services/admin-interceptor.service';
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angular/platform-browser';
 import { PartnerManagementComponent } from './pages/partner-management/partner-management.component';
+import {NgChartsModule} from "ng2-charts";
+import {SalesRevenueChartComponent} from "./pages/chart/sales-revenue-chart/sales-revenue-chart.component";
 
 @NgModule({
     declarations: [
@@ -56,6 +51,7 @@ import { PartnerManagementComponent } from './pages/partner-management/partner-m
         AllAdsComponent,
         UpdateAdComponent,
         PartnerManagementComponent,
+        SalesRevenueChartComponent
 
     ],
     imports: [
@@ -76,7 +72,8 @@ import { PartnerManagementComponent } from './pages/partner-management/partner-m
         FontAwesomeModule,
         MatFormFieldModule,
         MaterialModule,
-        HammerModule
+        HammerModule,
+        NgChartsModule
     ],
     providers: [
         {

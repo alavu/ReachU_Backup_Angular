@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AdminComponent} from './admin.component';
-import {AdminLoginComponent} from "../basic/components/admin-login/admin-login.component";
+import {AdminLoginComponent} from "../auth/admin-login/admin-login.component";
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { UserManagementComponent } from './pages/user-management/user-management.component';
 import { ViewCategoriesComponent } from './pages/category/view-categories/view-categories.component';
@@ -9,7 +9,7 @@ import { AddCategoryComponent } from './pages/category/add-category/add-category
 import { SubcategoryComponent } from './pages/category/subcategory-component/subcategory-component.component';import { CreateServiceComponent } from './pages/create-service/create-service.component';
 import { AllAdsComponent } from './pages/all-ads/all-ads.component';
 import { UpdateAdComponent } from './pages/update-ad/update-ad.component';
-import { AuthenticationGuard } from '../auth_guard/authentication.guard';
+import { AuthenticationGuard } from '../auth/guard/authentication.guard';
 import { PartnerManagementComponent } from './pages/partner-management/partner-management.component';
 const routes: Routes = [
     {

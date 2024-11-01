@@ -1,9 +1,9 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from "@angular/router";
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { AuthService } from 'src/app/basic/services/auth/auth.service';
-import { GoogleAuthService } from 'src/app/basic/services/auth/google-auth.service';
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { GoogleAuthService } from 'src/app/auth/services/google-auth.service';
+import { UserStorageService } from 'src/app/auth/services/user-stoarge.service';
 
 @Component({
     selector: 'app-header',
@@ -11,7 +11,7 @@ import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.
     styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-    
+
     isClientLoggedIn: boolean = false;
     isAdminLoggedIn: boolean = false;
     isPartnerLoggedIn: boolean = false;
@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
         this.router.events.subscribe(event => {
             if (event instanceof NavigationEnd) {
                 this.checkLoginStatus();
-                this.updateHeaderVisibility();  
+                this.updateHeaderVisibility();
             }
         });
     }
@@ -88,7 +88,7 @@ export class HeaderComponent implements OnInit {
            isPartnerLoggedIn: this.isPartnerLoggedIn,
            isGoogleLogin: this.isGoogleLogin,
            showHeader: this.showHeader
-           
+
        });
        this.cdr.detectChanges();
    }

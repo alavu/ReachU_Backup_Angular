@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/basic/services/auth/auth.service';
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { UserStorageService } from 'src/app/auth/services/user-stoarge.service';
 
 @Component({
   selector: 'partner-navbar',

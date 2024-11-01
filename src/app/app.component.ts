@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
-import { UserStorageService } from './basic/services/storage/user-stoarge.service';
+import { UserStorageService } from './auth/services/user-stoarge.service';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  template:`
+    <app-header/>
+    <router-outlet/>
+  `
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'ServiceBookingSystemWeb';
 
   isClientLoggedIn: boolean = UserStorageService.isUserLoggedIn();

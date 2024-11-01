@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, tap, throwError } from 'rxjs';
-import { environment } from 'src/app/basic/services/storage/environment';
+import { environment } from 'src/app/environment';
 
 const BASE_URL = environment.apiBaseUrl;
 
@@ -51,6 +51,6 @@ export class PartnerManagementService {
           })
         );
       }
-      
-  
+
+
 }

@@ -10,7 +10,7 @@ import { ClientService } from 'src/app/client/services/client.service';
 })
 export class SucessComponent implements OnInit {
   constructor(
-    private clientService: ClientService, 
+    private clientService: ClientService,
     private route: ActivatedRoute
   ) {}
 
@@ -43,7 +43,7 @@ export class SucessComponent implements OnInit {
 
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/auth/services/user-stoarge.service';
 import { ClientService } from 'src/app/client/services/client.service';
 
 @Component({
@@ -55,7 +55,7 @@ export class SucessComponent implements OnInit {
   status: string | null = null;
   reservationId: string | null = null;
   constructor(
-    private clientService: ClientService, 
+    private clientService: ClientService,
     private route: ActivatedRoute
   ) {}
 

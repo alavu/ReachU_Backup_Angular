@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ClientService } from '../../services/client.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/auth/services/user-stoarge.service';
 import { PartnerDTO } from 'src/app/model/PartnerDTO';
 
 @Component({
@@ -20,13 +20,13 @@ export class AdDetailComponent {
   partners: PartnerDTO[] = [];
   serviceName: string = '';
   serviceId!: number;
-
+  selectedPartnerId: number | null = null;
   validateForm!: FormGroup;
 
   durationOptions: string[] = [
-    '1 hour', '1.5 hours', '2 hours', '2.5 hours', '3 hours', '3.5 hours', '4 hours', '4.5 hours', 
-    '5 hours', '5.5 hours', '6 hours', '6.5 hours', '7 hours', '7.5 hours', '8 hours', '8.5 hours', 
-    '9 hours', '1 day', '2 days', '3 days', '4 days', '5 days', '6 days', '1 week', '2 weeks', 
+    '1 hour', '1.5 hours', '2 hours', '2.5 hours', '3 hours', '3.5 hours', '4 hours', '4.5 hours',
+    '5 hours', '5.5 hours', '6 hours', '6.5 hours', '7 hours', '7.5 hours', '8 hours', '8.5 hours',
+    '9 hours', '1 day', '2 days', '3 days', '4 days', '5 days', '6 days', '1 week', '2 weeks',
     '3 weeks', '1 month'
   ];
 
@@ -36,7 +36,7 @@ export class AdDetailComponent {
     private router: Router,
     private fb: FormBuilder){}
 
-  
+
     ngOnInit(){
       this.validateForm = this.fb.group({
         bookDate: [null, [Validators.required]],
@@ -69,8 +69,12 @@ export class AdDetailComponent {
         console.log("Partners by service", res);
         this.partners = res;
       });
-    }  
-  
+    }
+
+    selectPartnerId(partnerId: number): void {
+        this.selectedPartnerId = partnerId;
+        console.log('Selected Partner ID:', this.selectedPartnerId);
+    }
 
     bookService(){
       const bookServiceDTO = {
@@ -78,8 +82,8 @@ export class AdDetailComponent {
 
         timeSlot: this.validateForm.get('timeSlot')?.value,
         duration: this.validateForm.get('duration')?.value,
-
         adId : this.adId,
+          partnerId: this.selectedPartnerId,
         userId: UserStorageService.getUserId()
       }
 
@@ -102,5 +106,4 @@ export class AdDetailComponent {
     checkoutPage() {
       this.router.navigateByUrl('/client/checkout');
     }
-
 }

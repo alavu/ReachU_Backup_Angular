@@ -8,7 +8,7 @@ import { Partner } from 'src/app/model/partner.model';
 })
 export class PartnerService {
 
-  private apiUrl = 'http://localhost:8080/api/partners'; 
+  private apiUrl = 'http://localhost:8080/api/partners';
 
   constructor(private http: HttpClient) { }
 
@@ -38,15 +38,17 @@ export class PartnerService {
       return this.http.put(`${this.apiUrl}/${partnerId}`, partnerData, {
       });
     }
-    
-    getDashboardStats(): Observable<any> {
-      return this.http.get('/api/partner/dashboard');
+
+    getDashboardStats(partnerId: number): Observable<any> {
+      return this.http.get(`${this.apiUrl}/${partnerId}/stats`);
     }
 
     getGraphData(period: string): Observable<any> {
       return this.http.get(`/api/partner/dashboard/graph?period=${period}`);
     }
-    
+
+
+
 
       // Error handling function
   private handleError(error: HttpErrorResponse) {

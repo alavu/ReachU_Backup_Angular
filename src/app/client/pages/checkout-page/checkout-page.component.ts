@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddAddressModalComponent } from '../add-address-modal/add-address-modal.component';
-import { environment } from 'src/app/basic/services/storage/environment';
+import { environment } from 'src/app/environment';
 import { HttpClient } from '@angular/common/http';
 import { loadStripe } from '@stripe/stripe-js';
 import { ClientService } from '../../services/client.service';
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/auth/services/user-stoarge.service';
 
 @Component({
   selector: 'app-checkout-page',
@@ -61,7 +61,7 @@ export class CheckoutPageComponent implements OnInit {
     const taxesAndFee = 79; // This can be made dynamic as well
     return price - discount + taxesAndFee;
   }
-  
+
 
   async pay(): Promise<void> {
     const reservationId = UserStorageService.getReservationId();

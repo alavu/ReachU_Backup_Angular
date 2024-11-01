@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PartnerService } from '../services/partner.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/auth/services/user-stoarge.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPartnerModalComponent } from '../edit-partner-modal/edit-partner-modal.component';
 
@@ -47,7 +47,7 @@ export class PartnerProfileComponent {
       (data: any) => {
         console.log("Partner data:", data);
         this.partner = data;
-  
+
         // Convert the image byte array or base64 string into a format usable by the img tag
         if (this.partner.img) {
           this.partner.imageUrl = 'data:image/jpeg;base64,' + this.partner.img; // Assuming it's a JPEG image
@@ -60,7 +60,7 @@ export class PartnerProfileComponent {
       }
     );
   }
-  
+
 
  // Open the edit profile modal
  editProfile(): void {
@@ -78,7 +78,7 @@ export class PartnerProfileComponent {
       {
         this.partner.imageUrl = result.imageUrl;
       }
-      
+
       console.log('Profile updated:', result);
     }
   });

@@ -1,13 +1,15 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
-import { PaymentUpdateRequest } from 'src/app/model/PaymentUpdateRequest ';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {UserStorageService} from 'src/app/auth/services/user-stoarge.service';
+import {PaymentUpdateRequest} from "../../model/PaymentUpdateRequest";
+import {ConnectedPartners} from "../../model/ConnectedPartners";
+import {ReservationDTO} from "../../model/ReservationDTO";
 
 const BASIC_URL = "http://localhost:8080/";
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ClientService {
     private googleUserInfoUrl = 'https://www.googleapis.com/oauth2/v1/userinfo?alt=json';
@@ -17,7 +19,7 @@ export class ClientService {
 
     getAllAds(): Observable<any> {
         return this.http.get(BASIC_URL + `api/client/ads`, {
-            headers: this.createAuthorizationHeader() 
+            headers: this.createAuthorizationHeader()
         })
     }
 
@@ -57,7 +59,7 @@ export class ClientService {
     updateReservationPayment(reservationId: string, paymentDetails: PaymentUpdateRequest): Observable<any> {
         console.log("reservation id sending in backend", reservationId)
         return this.http.put(`${BASIC_URL}api/client/${reservationId}/payment`, paymentDetails);
-      }
+    }
 
     giveReview(reviewDTO: any): Observable<any> {
         return this.http.post(BASIC_URL + `api/client/review`, reviewDTO, {
@@ -78,9 +80,41 @@ export class ClientService {
         return this.http.get(this.googleUserInfoUrl, {headers});
     }
 
-    
-    getConnectedPartners(): Observable<any> {
-        return this.http.get<any>(`${BASIC_URL}api/client/partner`);
-      }
+
+    getConnectedPartners(userId: number): Observable<ConnectedPartners[]> {
+        console.log("Connected partner detail:",)
+        return this.http.get<any>(`${BASIC_URL}api/connections/partners/${userId}`);
+    }
+
+    connectUserWithPartner(userId: number, partnerId: number): Observable<any> {
+        return this.http.post(`${BASIC_URL}api/connections/connect/${userId}/${partnerId}`, {
+            headers: this.createAuthorizationHeader()
+        });
+    }
+
+    getBookings(status: string, startDate: string, endDate: string): Observable<ReservationDTO[]> {
+        const params = new HttpParams()
+            .set('status', status)
+            .set('startDate', startDate)
+            .set('endDate', endDate);
+
+        return this.http.get<any[]>(`${BASIC_URL}api/client/bookings`, { params });
+    }
+
+    // Fetch customers who have booked service.
+    getBookingCustomers(): Observable<ReservationDTO[]> {
+        return this.http.get<ReservationDTO[]>(`${BASIC_URL}api/client/customer/bookings`)
+    }
+
+    // Method to update booking status
+    updatePartnerJobStatus(partnerId: any, statusUpdate: {jobStatus: string, startDate: string, endDate: string}): Observable<any> {
+        console.log("partnerId:",partnerId)
+        return this.http.put<any>(`${BASIC_URL}api/partners/partners/${partnerId}/status`, statusUpdate);
+    }
+
+    // updatePartnerJobStatus(id: number, statusUpdate: { jobStatus: string, startDate?: string, endDate?: string }): Observable<any> {
+    //     const url = `${BASIC_URL}api/partners/partners/${id}/status`;
+    //     return this.http.put(url, statusUpdate);
+    // }
 
 }

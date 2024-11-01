@@ -22,7 +22,7 @@ export class UserManagementComponent implements OnInit {
   //   { id: '10', name: 'Steve Miller', email: 'steve@example.com', phone: '8899001122', blocked: false },
   //   // Add more dummy users as needed for testing
   // ];
-  
+
   Userslist: any[] = [];
   filteredUsers: any[] = [];
   paginatedUsers: any[] = [];
@@ -39,30 +39,54 @@ export class UserManagementComponent implements OnInit {
     this.getAllUsers();
   }
 
+  // getAllUsers() {
+  //   this.userManagementService.getAllUsers().subscribe(
+  //     (response) => {
+  //       console.log("User data received from backend:", response);
+  //       console.log(Array.isArray(response))
+  //       if (response && Array.isArray(response)) {
+  //           this.Userslist = response;
+  //           this.filteredUsers = response;
+  //           this.calculatePagination();
+  //           this.updatePaginatedUsers();
+  //           this.changeDetector.detectChanges();
+  //       } else {
+  //           console.error('Unexpected response format:', response);
+  //       }
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching user list:', error);
+  //     }
+  //   );
+  // }
+
   getAllUsers() {
-    this.userManagementService.getAllUsers().subscribe(
-      (response) => {
-        console.log("User data received from backend:", response);
-        console.log(Array.isArray(response))
-        if (response && Array.isArray(response)) {
-            this.Userslist = response;
-            this.filteredUsers = response;
-            this.calculatePagination();
-            this.updatePaginatedUsers();
-            this.changeDetector.detectChanges();
-        } else {
-            console.error('Unexpected response format:', response);
+    this.userManagementService.getAllUsers().subscribe({
+        next: (response) => {
+            console.log("User data received from backend:", response);
+            if (response && Array.isArray(response)) {
+                this.Userslist = response;
+                this.filteredUsers = response;
+                this.calculatePagination();
+                this.updatePaginatedUsers();
+                this.changeDetector.detectChanges();
+            } else {
+                console.error('Unexpected response format:', response);
+            }
+        },
+        error: (error) => {
+            console.error('Error fetching user list:', error);
+        },
+        complete: () => {
+            console.log('User fetching process completed.');
         }
-      },
-      (error) => {
-        console.error('Error fetching user list:', error);
-      }
-    );
-  }
+    });
+
+}
 
   filterUsers() {
-    this.filteredUsers = this.Userslist.filter(user => 
-      user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
+    this.filteredUsers = this.Userslist.filter(user =>
+      user.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       user.phone.includes(this.searchQuery)
     );
@@ -102,9 +126,10 @@ export class UserManagementComponent implements OnInit {
   blockUser(userId: string) {
     this.userManagementService.blockUser(userId).subscribe(
       (response) => {
+          this.getAllUsers();
         console.log("User blocked successfully:", response);
         this.updateUserStatus(userId, response.blocked);
-        // this.changeDetector.detectChanges(); 
+        // this.changeDetector.detectChanges();
       },
       (error) => {
         console.error('Error blocking user:', error);
@@ -115,9 +140,10 @@ export class UserManagementComponent implements OnInit {
   UnblockUser(userId: string) {
     this.userManagementService.unblockUser(userId).subscribe(
       (response) => {
+          this.getAllUsers();
         console.log("User unblocked successfully:", response);
         this.updateUserStatus(userId, response.blocked);
-        this.changeDetector.detectChanges(); 
+        this.changeDetector.detectChanges();
       },
       (error) => {
         console.error('Error unblocking user:', error);
@@ -129,7 +155,7 @@ export class UserManagementComponent implements OnInit {
     const user = this.Userslist.find(user => user.id === userId);
     if (user) {
       user.blocked = isBlocked;
-      this.filterUsers(); 
+      this.filterUsers();
       this.changeDetector.detectChanges();
     }
   }

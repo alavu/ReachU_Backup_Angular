@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../../basic/services/auth/auth.service";
+import {AuthService} from "../../../auth/services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import { UserDataService } from 'src/app/basic/services/storage/user-details.service';
+import { UserDataService } from 'src/app/auth/services/user-details.service';
 
 @Component({
   selector: 'app-activate-account',
@@ -63,7 +63,7 @@ export class ActivateAccountComponent implements OnInit{
   }
 
   // requestActivationCode() {
-  //   const token = this.route.snapshot.queryParams['token']; 
+  //   const token = this.route.snapshot.queryParams['token'];
   //   console.log('Retrieved token:', token); // Log token for debugging
   //   if (token) {
   //     this.authService.resendActivationCode(token).subscribe({
@@ -102,7 +102,7 @@ export class ActivateAccountComponent implements OnInit{
   this.message = 'Token has expired. Please request a new activation link.';
   this.isOkay = false;
   this.submitted = true;
-  this.showTimer = false; 
+  this.showTimer = false;
   this.openSnackBar(this.message, 'Close');
   // Optional: Redirect to a specific page or trigger another action
 }
@@ -121,7 +121,7 @@ export class ActivateAccountComponent implements OnInit{
         this.submitted = true;
         this.isOkay = true;
         this.openSnackBar(this.message, 'Close');
-        this.showTimer = false; 
+        this.showTimer = false;
       },
       error: () => {
         this.message = 'Token has expired or is invalid';

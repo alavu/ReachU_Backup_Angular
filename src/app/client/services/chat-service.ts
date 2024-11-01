@@ -15,7 +15,7 @@
 //   private stompClient: any
 //   private messageSubject: BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([]);
 
-//   constructor(private httpClient: HttpClient) { 
+//   constructor(private httpClient: HttpClient) {
 //     this.initConnenctionSocket();
 //   }
 
@@ -73,7 +73,7 @@ import { Stomp } from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { ChatMessage } from 'src/app/admin/pages/model/ChatMessage';
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
+import { UserStorageService } from 'src/app/auth/services/user-stoarge.service';
 
 const BASIC_URL = "http://localhost:8080/";
 @Injectable({

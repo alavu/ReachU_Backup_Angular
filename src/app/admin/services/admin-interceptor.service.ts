@@ -6,8 +6,8 @@ import {
     HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
 import {catchError, Observable, switchMap, throwError} from 'rxjs'
-import { UserStorageService } from 'src/app/basic/services/storage/user-stoarge.service';
-import { AuthService } from 'src/app/basic/services/auth/auth.service';
+import { UserStorageService } from 'src/app/auth/services/user-stoarge.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Injectable()
 export class AdminInterceptor implements HttpInterceptor {
